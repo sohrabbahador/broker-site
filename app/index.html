@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0E5A57"><link rel="apple-touch-icon" href="icon-192.png">
+<title>سهراب بهادر | بروکر املاک - BROKER AMLAK</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EDF2F3;--sf:#fff;--tx:#17282E;--mu:#5F727A;--ln:#DAE3E6;--pr:#0E5A57;--pr2:#E1F0EF;--ac:#C98A12;--ac2:#FBF1DC;--ok:#2E7D4F;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1A1D;--sf:#15262A;--tx:#E6EEF0;--mu:#93A7AE;--ln:#243A40;--pr:#3FB5AE;--pr2:#173A3A;--ac:#E5AE3A;--ac2:#3A2F14;--ok:#5CC48A}}
+:root[data-theme="dark"]{--bg:#0E1A1D;--sf:#15262A;--tx:#E6EEF0;--mu:#93A7AE;--ln:#243A40;--pr:#3FB5AE;--pr2:#173A3A;--ac:#E5AE3A;--ac2:#3A2F14;--ok:#5CC48A}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:'Vazirmatn',Tahoma,sans-serif;font-size:15px;line-height:1.7}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--pr);outline-offset:2px}
+.shell{max-width:1100px;margin:0 auto;padding:16px 16px 96px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px}
+.mark{width:34px;height:34px;border-radius:10px;background:var(--pr);display:grid;place-items:center}
+.mark i{width:14px;height:14px;border:3px solid #fff;border-top-color:var(--ac);border-radius:3px 3px 2px 2px;transform:rotate(45deg) scale(.9)}
+.date{color:var(--mu);font-size:13px}
+nav{position:fixed;inset-inline:0;bottom:0;display:flex;background:var(--sf);border-top:1px solid var(--ln);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));z-index:5}
+nav button{flex:1;background:none;border:0;padding:10px 4px;border-radius:10px;color:var(--mu);font-weight:500;cursor:pointer}
+nav button.on{color:var(--pr);background:var(--pr2);font-weight:700}
+h2{font-size:20px;margin:0 0 12px}
+h3{margin:0 0 8px;font-size:16px}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.btn{background:var(--pr);color:#fff;border:0;border-radius:10px;padding:8px 16px;font-weight:700;cursor:pointer}
+.btn.ghost{background:none;color:var(--tx);border:1px solid var(--ln)}
+.btn.sm{padding:3px 10px;font-size:13px;font-weight:500}
+.chips{display:flex;gap:6px}
+.chip{border:1px solid var(--ln);background:var(--sf);border-radius:99px;padding:3px 14px;cursor:pointer;font-size:14px}
+.chip.on{background:var(--pr);color:#fff;border-color:var(--pr)}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:14px}
+.stats{display:grid;gap:12px;grid-template-columns:repeat(2,1fr);margin-bottom:12px}
+.stat b{display:block;font-size:28px;font-weight:800;color:var(--pr);line-height:1.2}
+.stat span{color:var(--mu);font-size:13px}
+.two{display:grid;gap:12px}
+.badge{display:inline-block;border-radius:6px;padding:0 8px;font-size:12px;background:var(--pr2);color:var(--pr);font-weight:700}
+.badge.r{background:var(--ac2);color:var(--ac)}
+.meta{color:var(--mu);font-size:13px}
+.price{font-weight:800;margin:6px 0}
+.hb{display:flex;align-items:center;gap:8px;margin:8px 0}
+.hb em{font-style:normal;width:96px;font-size:13px;color:var(--mu)}
+.hb div{height:10px;border-radius:5px;background:var(--pr);min-width:6px}
+.board{display:flex;gap:12px;overflow-x:auto;padding-bottom:8px;align-items:flex-start}
+.col{flex:0 0 240px;background:var(--pr2);border-radius:14px;padding:10px}
+.col h3{display:flex;justify-content:space-between;font-size:14px}
+.col .card{margin-bottom:8px;padding:10px}
+.match{color:var(--ok);font-size:12.5px;font-weight:700}
+.mv{display:flex;justify-content:space-between;margin-top:6px}
+.vis{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--ln)}
+.vis:last-child{border:0}
+.vis.done{opacity:.5;text-decoration:line-through}
+.vis time{font-weight:800;color:var(--pr);width:52px}
+.vis div{flex:1}
+dialog{border:0;border-radius:16px;padding:20px;width:min(420px,92vw);background:var(--sf);color:var(--tx)}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+label{display:block;margin-bottom:10px;font-size:14px;color:var(--mu)}
+input,select,textarea{display:block;width:100%;margin-top:2px;padding:8px 10px;border:1px solid var(--ln);border-radius:10px;background:var(--bg)}
+textarea{height:210px;line-height:1.8}
+.row{display:flex;gap:8px;margin-top:8px}
+.empty{color:var(--mu);text-align:center;padding:28px}
+@media(min-width:760px){.stats{grid-template-columns:repeat(4,1fr)}.two{grid-template-columns:1fr 1fr}}
+.brand small{display:block;font-size:11px;font-weight:500;color:var(--mu);letter-spacing:.06em}
+.prog{height:10px;border-radius:5px;background:var(--pr2);overflow:hidden;margin:8px 0}.prog div{height:100%;background:var(--ac)}
+.mv{gap:6px;flex-wrap:wrap;justify-content:flex-start}
+nav button{font-size:12px;padding:10px 2px}.stat b{font-size:24px}
+a.btn{text-decoration:none;display:inline-block}
+.tag{color:var(--ac);font-weight:700;font-size:13px}
+a{color:var(--pr)}
+.mw{display:block;min-height:1.5em;color:var(--ok);font-size:13px}.chips{flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="shell">
+<header><div class="brand"><span class="mark"><i></i></span><span>سهراب بهادر<small>بروکر املاک · BROKER AMLAK</small></span></div><div style="display:flex;gap:8px;align-items:center"><span class="date" id="dt"></span><button id="ib" class="btn sm" hidden onclick="inst()">نصب اپ</button></div></header>
+<main id="view"></main>
+<p class="meta" id="st" style="text-align:center;margin-top:20px">نسخه ۶</p>
+<div class="row" style="justify-content:center"><button class="btn ghost sm" onclick="backup()">پشتیبان‌گیری</button><button class="btn ghost sm" onclick="$('#rf').click()">بازیابی</button><input id="rf" type="file" accept=".json" hidden onchange="restore(this)"></div>
+</div>
+<nav id="nav"></nav>
+<dialog id="dlg"></dialog><dialog id="dlg2" style="width:min(900px,94vw)"></dialog>
+<script>
+const $=s=>document.querySelector(s),P=s=>String(s).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]),N=n=>Number(n||0).toLocaleString('fa-IR'),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt=m=>{if(m>=1000){const b=Math.floor(m/1000),r=Math.round(m%1000);return N(b)+' میلیارد'+(r?' و '+N(r)+' میلیون':'')+' تومان'}return N(m)+' میلیون تومان'};
+const DAY=864e5,now=()=>Date.now(),ago=d=>Math.floor((now()-d)/DAY);
+const STAGES=['سرنخ جدید','تماس گرفته شد','بازدید','مذاکره','قرارداد'],PROB=[.05,.15,.3,.6,1];
+const S={tab:'dash',flt:'همه',files:[],cus:[],vis:[],deals:[],goal:150,cf:'',prof:{ph:'',ad:'',bio:''}};
+const sample=()=>({files:[
+{id:'f1',t:'آپارتمان ۱۲۰ متری نوساز',a:'سعادت‌آباد',ty:'فروش',p:9800,m:120,r:2,f:'۵',x:'پارکینگ، انباری، لابی',ow:'آقای حیدری',op:'09121110000',cm:98,st:'فعال'},
+{id:'f2',t:'برج باغ، نما رومی',a:'الهیه',ty:'فروش',p:24500,m:185,r:3,f:'۱۰',x:'استخر، سونا، نگهبانی',ow:'خانم شریفی',op:'09122223333',cm:245,st:'فعال'},
+{id:'f3',t:'آپارتمان ۸۵ متری بازسازی‌شده',a:'ونک',ty:'رهن و اجاره',p:1200,m:85,r:2,f:'۳',x:'پارکینگ، انباری',ow:'آقای رستمی',op:'09123334444',cm:18,st:'فعال'},
+{id:'f4',t:'واحد ۶۰ متری نزدیک مترو',a:'تهرانپارس',ty:'رهن و اجاره',p:600,m:60,r:1,f:'۲',x:'آسانسور، پارکینگ',ow:'خانم کمالی',op:'09124445555',cm:10,st:'فعال'}],
+cus:[
+{id:'c1',n:'مریم احمدی',p:'09121234567',ty:'فروش',b:10000,a:'سعادت‌آباد',s:1,lc:now()-5*DAY,pr:['f1']},
+{id:'c2',n:'رضا کریمی',p:'09354567890',ty:'رهن و اجاره',b:1500,a:'ونک',s:2,lc:now()-1*DAY,pr:['f3']},
+{id:'c3',n:'الهام رضایی',p:'09381239876',ty:'فروش',b:26000,a:'الهیه',s:3,lc:now()-4*DAY,pr:['f2']},
+{id:'c4',n:'حمید نوروزی',p:'09191112233',ty:'رهن و اجاره',b:700,a:'تهرانپارس',s:0,lc:now()-2*DAY,pr:[]}],
+vis:[{t:'10:30',c:'رضا کریمی',f:'آپارتمان ۸۵ متری، ونک',d:false},{t:'16:30',c:'مریم احمدی',f:'آپارتمان ۱۲۰ متری، سعادت‌آباد',d:false}]});
+const KEY='ba_state_v1';
+function stat(t,c){const e=$('#st');if(e){e.textContent=t;e.style.color=c||''}}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify({files:S.files,cus:S.cus,vis:S.vis,deals:S.deals,goal:S.goal,prof:S.prof}));stat('✓ ذخیره شد روی این دستگاه')}catch(e){stat('⚠ ذخیره روی این دستگاه انجام نشد؛ حتماً «پشتیبان‌گیری» بزنید','#c0392b')}}
+function loadState(d){S.files=d.files||[];S.cus=d.cus||[];S.vis=d.vis||[];S.deals=d.deals||[];S.goal=d.goal||150;S.prof=d.prof||S.prof;S.files.forEach((f,i)=>{f.id=f.id||'f'+i});S.cus.forEach((c,i)=>{c.id=c.id||'c'+i;c.pr=c.pr||[];c.lc=c.lc||now()})}
+function backup(){const b=new Blob([JSON.stringify({files:S.files,cus:S.cus,vis:S.vis,deals:S.deals,goal:S.goal,prof:S.prof})],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='broker-amlak-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click()}
+function restore(i){const f=i.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{loadState(JSON.parse(r.result));persist();render()}catch(e){stat('⚠ فایل پشتیبان معتبر نیست','#c0392b')}};r.readAsText(f)}
+function seed(){const x=sample();S.files=x.files;S.cus=x.cus;S.vis=x.vis;persist();render()}
+const fits=(c,f)=>f.st==='فعال'&&(c.ty==='خرید'?'فروش':c.ty)===f.ty&&f.p<=c.b;
+const nm=c=>S.files.filter(f=>fits(c,f)).length,nc=f=>S.cus.filter(c=>c.s<4&&fits(c,f)).length;
+const rl=()=>S.deals.filter(x=>ago(x.d)<30).reduce((a,x)=>a+x.cm,0);
+const fc=()=>Math.round(S.cus.reduce((a,c)=>c.s>0&&c.s<4?a+PROB[c.s]*Math.max(0,...c.pr.map(id=>(S.files.find(f=>f.id===id)||{}).cm||0)):a,0));
+const due=()=>S.cus.filter(c=>c.s<4&&ago(c.lc)>=3);
+document.getElementById('dt').textContent=new Intl.DateTimeFormat('fa-IR',{weekday:'long',day:'numeric',month:'long'}).format(new Date());
+const TABS=[['dash','داشبورد'],['files','فایل‌ها'],['crm','مشتریان'],['vis','بازدید'],['inc','درآمد'],['pub','ویترین']];
+function go(t){S.tab=t;render();scrollTo(0,0)}
+let FM=null;
+const M=x=>x>=1e6?x/1e6:x;
+function form(title,fields,save){
+ const d=$('#dlg');FM=save;
+ d.innerHTML=`<div id="fm"><h3>${title}</h3>${fields.map(f=>`<label>${f.l}${f.o?`<select name="${f.k}">${f.o.map(o=>`<option${o===f.v?' selected':''}>${esc(o)}</option>`).join('')}</select>`:f.y==='area'?`<textarea name="${f.k}" data-opt="1" style="height:90px">${esc(f.v||'')}</textarea>`:f.y==='money'?`<input name="${f.k}" data-money="1" data-u="${f.u||1}" value="${esc(f.v||'')}" autocomplete="off" oninput="mw(this)" placeholder="${f.u===1000?'مثلاً ۲٫۵ یعنی دو و نیم میلیارد؛ یا «۶۰۰ میلیون»':'مثلاً ۱۸۰ یعنی صد و هشتاد میلیون'}"><small class="mw"></small>`:`<input name="${f.k}" value="${esc(f.v||'')}" ${f.opt?'data-opt="1"':''} type="${f.y==='number'?'text':(f.y||'text')}" ${f.y==='number'?'inputmode="decimal" data-num="1"':''} ${f.y==='number'||f.y==='tel'?'data-n="1"':''}>`}</label>`).join('')}<p id="fe" class="meta" style="color:#c0392b;margin:0"></p><div class="row"><button class="btn" onclick="fmOk()">ذخیره</button><button class="btn ghost" onclick="$('#dlg').close()">انصراف</button></div></div>`;
+ d.showModal();d.querySelectorAll('[data-money]').forEach(mw);
+}
+function fmOk(){
+ const els=[...$('#fm').querySelectorAll('input,select,textarea')],v={};let bad=null;
+ els.forEach(e=>{const r=e.value.trim();
+  if(e.dataset.money){const p=r?parseMoney(r,+e.dataset.u||1):null;v[e.name]=p==null?'':String(p);if(!bad&&p==null)bad=e}
+  else{v[e.name]=e.dataset.n?r.replace(/[۰-۹]/g,c=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(c)):r;if(!bad&&((!v[e.name]&&!e.dataset.opt)||(e.dataset.num&&v[e.name]&&isNaN(+v[e.name]))))bad=e}});
+ if(bad){$('#fe').textContent=bad.dataset.money?'مبلغ را به عدد یا حروف درست بنویسید (مثلاً ۲۵۰۰ یا دو میلیارد و پانصد میلیون).':'همه‌ی فیلدها را درست پر کنید (عددها فقط با رقم).';bad.focus();return}
+ try{FM(v);$('#dlg').close();persist();render()}catch(e){$('#fe').textContent='خطا: '+e.message}
+}
+const TY=['فروش','رهن و اجاره','خرید','تهاتر'],CTY=['خرید','رهن و اجاره','تهاتر'],PL={'فروش':'','رهن و اجاره':'رهن ','خرید':'بودجه ','تهاتر':'ارزش '};
+const W1={صفر:0,یک:1,دو:2,سه:3,چهار:4,پنج:5,شش:6,هفت:7,هشت:8,نه:9,ده:10,یازده:11,دوازده:12,سیزده:13,چهارده:14,پانزده:15,شانزده:16,هفده:17,هجده:18,نوزده:19,بیست:20,سی:30,چهل:40,پنجاه:50,شصت:60,هفتاد:70,هشتاد:80,نود:90,صد:100,یکصد:100,دویست:200,سیصد:300,چهارصد:400,پانصد:500,پونصد:500,ششصد:600,هفتصد:700,هشتصد:800,هشصد:800,نهصد:900},WS={هزار:1e3,میلیون:1e6,ملیون:1e6,میلیارد:1e9,ملیارد:1e9,همت:1e12};
+const O=['','یک','دو','سه','چهار','پنج','شش','هفت','هشت','نه','ده','یازده','دوازده','سیزده','چهارده','پانزده','شانزده','هفده','هجده','نوزده'],T10=['','','بیست','سی','چهل','پنجاه','شصت','هفتاد','هشتاد','نود'],H=['','یکصد','دویست','سیصد','چهارصد','پانصد','ششصد','هفتصد','هشتصد','نهصد'];
+function parseMoney(s,def){
+ s=String(s).replace(/ي/g,'ی').replace(/ك/g,'ک').replace(/[۰-۹]/g,c=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(c)).replace(/[٠-٩]/g,c=>'٠١٢٣٤٥٦٧٨٩'.indexOf(c)).replace(/[٬,،]/g,'').replace(/٫/g,'.').replace(/[\u200c\u200f\u200e]/g,' ').replace(/(\d)([^\d./\s])/g,'$1 $2').replace(/([^\d./\s])(\d)/g,'$1 $2');
+ s=/(هزار|میلیون|ملیون|میلیارد|ملیارد|همت)/.test(s)?s.replace(/\//g,'.'):s.replace(/(\d)[\/.](?=\d{3}(?!\d))/g,'$1');
+ const T=s.split(/\s+/).filter(Boolean);let tot=0,cur=0,last=0,sc=false,rial=false,any=false;
+ for(let i=0;i<T.length;i++){const t=T[i];
+  if(t==='و'||t==='تومان'||t==='تومن')continue;
+  if(t==='ریال'){rial=true;continue}
+  if(/^\d+(\.\d+)?$/.test(t)){cur+=parseFloat(t);any=true;continue}
+  if(t==='نیم'){if(cur===0&&last>0)tot+=last/2;else cur+=.5;any=true;continue}
+  if(t in W1){const w=W1[t];if(w===100&&cur>0&&cur<10)cur*=100;else cur+=w;any=true;continue}
+  if(t in WS){const q=WS[t];sc=true;any=true;if(cur===0&&tot>0&&last&&last<q&&tot<q&&q>=1e6)tot*=q;else tot+=(cur||1)*q;cur=0;last=q;continue}
+  if(t.length>1&&t[0]==='و'){T.splice(i+1,0,t.slice(1));continue}
+  return null}
+ if(!any)return null;tot+=cur;if(rial)tot/=10;
+ const r=sc?tot/1e6:(tot>=1e6?tot/1e6:tot*(def||1));return Math.round(r*1000)/1000}
+const w3=n=>{const a=[],h=Math.floor(n/100),r=n%100;if(h)a.push(H[h]);if(r<20){if(r)a.push(O[r])}else{a.push(T10[Math.floor(r/10)]);if(r%10)a.push(O[r%10])}return a.join(' و ')};
+const wi=n=>{const m=Math.floor(n/1e6),k=Math.floor(n%1e6/1e3),r=n%1e3,p=[];if(m)p.push(w3(m)+' میلیون');if(k)p.push(k===1?'هزار':w3(k)+' هزار');if(r)p.push(w3(r));return p.join(' و ')};
+function toW(n){if(!n)return 'صفر تومان';const b=Math.floor(n/1e9),r=n%1e9,p=[];if(b)p.push(wi(b)+' میلیارد');if(r)p.push(wi(r));return p.join(' و ')+' تومان'}
+function mw(el){const o=el.parentNode.querySelector('.mw'),r=el.value.trim();if(!r){o.textContent='';return}const p=parseMoney(r,+el.dataset.u||1);if(p==null){o.style.color='#c0392b';o.textContent='قابل‌تشخیص نیست؛ عدد یا حروف فارسی بنویسید';return}o.style.color='';o.textContent='= '+toW(Math.round(p*1e6))+' ('+N(p)+' میلیون)'}
+function editFile(id){const f=S.files.find(x=>x.id===id);form('ویرایش فایل',[{k:'t',l:'عنوان فایل',v:f.t},{k:'a',l:'محله',v:f.a},{k:'ty',l:'نوع معامله',o:TY,v:f.ty},{k:'p',l:'قیمت یا رهن (به میلیارد تومان)',y:'money',u:1000,v:String(f.p/1000)},{k:'m',l:'متراژ',y:'number',v:String(f.m)},{k:'r',l:'تعداد خواب',y:'number',v:String(f.r)},{k:'f',l:'طبقه (اختیاری)',v:f.f==='—'?'':String(f.f),opt:1},{k:'x',l:'امکانات',v:f.x},{k:'ow',l:'نام مالک',v:f.ow},{k:'op',l:'موبایل مالک',y:'tel',v:f.op},{k:'cm',l:'کمیسیون مورد انتظار (به میلیون تومان)',y:'money',u:1,v:String(f.cm||0)},{k:'st',l:'وضعیت',o:['فعال','غیرفعال','قرارداد شده'],v:f.st}],v=>Object.assign(f,{t:v.t,a:v.a,ty:v.ty,p:M(+v.p),m:+v.m,r:+v.r,f:v.f||'—',x:v.x,ow:v.ow,op:v.op,cm:M(+v.cm),st:v.st}))}
+function editCus(id){const c=S.cus.find(x=>x.id===id);form('ویرایش مشتری',[{k:'n',l:'نام و نام خانوادگی',v:c.n},{k:'p',l:'موبایل',y:'tel',v:c.p},{k:'ty',l:'دنبال چه هست؟',o:CTY,v:c.ty==='فروش'?'خرید':c.ty},{k:'b',l:'سقف بودجه (به میلیارد تومان)',y:'money',u:1000,v:String(c.b/1000)},{k:'a',l:'محله مورد نظر',v:c.a},{k:'nt',l:'توضیحات (اختیاری)',y:'area',v:c.nt,opt:1}],v=>Object.assign(c,{n:v.n,p:v.p,ty:v.ty,b:M(+v.b),a:v.a,nt:v.nt}))}
+function note(id){const c=S.cus.find(x=>x.id===id);form('یادداشت: '+esc(c.n),[{k:'nt',l:'توضیحات',y:'area',v:c.nt,opt:1}],v=>{c.nt=v.nt})}
+function addFile(){form('فایل جدید',[{k:'t',l:'عنوان فایل'},{k:'a',l:'محله'},{k:'ty',l:'نوع معامله',o:TY},{k:'p',l:'قیمت یا رهن (به میلیارد تومان)',y:'money',u:1000},{k:'m',l:'متراژ',y:'number'},{k:'r',l:'تعداد خواب',y:'number'},{k:'x',l:'امکانات (مثلاً پارکینگ، انباری)'},{k:'ow',l:'نام مالک'},{k:'op',l:'موبایل مالک',y:'tel'},{k:'cm',l:'کمیسیون مورد انتظار (به میلیون تومان)',y:'money',u:1}],
+ v=>S.files.unshift({id:'f'+now(),t:v.t,a:v.a,ty:v.ty,p:M(+v.p),m:+v.m,r:+v.r,f:'—',x:v.x,ow:v.ow,op:v.op,cm:M(+v.cm),st:'فعال'}))}
+function addCus(){form('مشتری جدید',[{k:'n',l:'نام و نام خانوادگی'},{k:'p',l:'موبایل',y:'tel'},{k:'ty',l:'دنبال چه هست؟',o:CTY},{k:'b',l:'سقف بودجه (به میلیارد تومان)',y:'money',u:1000},{k:'a',l:'محله مورد نظر'},{k:'nt',l:'توضیحات (اختیاری)',y:'area',opt:1}],
+ v=>S.cus.unshift({id:'c'+now(),n:v.n,p:v.p,ty:v.ty,b:M(+v.b),a:v.a,nt:v.nt,s:0,lc:now(),pr:[]}))}
+function addVis(){form('بازدید جدید',[{k:'t',l:'ساعت',y:'time'},{k:'c',l:'نام مشتری'},{k:'f',l:'فایل'}],
+ v=>{S.vis.push({t:v.t,c:v.c,f:v.f,d:false});S.vis.sort((a,b)=>a.t.localeCompare(b.t))})}
+function setGoal(){form('هدف درآمد ماهانه',[{k:'g',l:'هدف ماهانه (به میلیون تومان)',y:'money',u:1}],v=>S.goal=M(+v.g)||S.goal)}
+const msg=f=>`🏡 ${f.t}\n📍 ${f.a}\n📐 ${N(f.m)} متر | ${N(f.r)} خوابه | طبقه ${f.f}\n✨ ${f.x}\n💰 ${f.ty==='فروش'?'قیمت':(PL[f.ty]||'مبلغ ').trim()}: ${fmt(f.p)}\n\nبرای هماهنگی بازدید در خدمتم.\n— سهراب بهادر | بروکر املاک`;
+function ad(id){
+ const f=S.files.find(x=>x.id===id),d=$('#dlg');
+ const cs=S.cus.map((c,i)=>({c,i})).filter(x=>x.c.s<4).sort((a,b)=>fits(b.c,f)-fits(a.c,f));
+ d.innerHTML=`<h3>ارائه فایل به مشتری</h3><textarea id="ta">${esc(msg(f))}</textarea><label>ارسال برای<select id="sel">${cs.map(x=>`<option value="${x.i}">${esc(x.c.n)}${fits(x.c,f)?' ⭐ مناسب':''}</option>`).join('')||'<option value="-1">اول یک مشتری ثبت کنید</option>'}</select></label><div class="row" style="flex-wrap:wrap"><button class="btn" onclick="logP('${id}',1)">ارسال در واتساپ</button><button class="btn ghost" onclick="logP('${id}',0)">فقط ثبت ارائه</button></div><div class="row"><button class="btn ghost" onclick="$('#dlg').close()">بستن</button></div>`;
+ d.showModal();
+}
+function logP(id,wa){
+ const c=S.cus[+$('#sel').value];if(!c)return;
+ if(!c.pr.includes(id))c.pr.push(id);c.lc=now();if(c.s===0)c.s=1;
+ if(wa)window.open('https://wa.me/98'+c.p.replace(/^0/,'')+'?text='+encodeURIComponent($('#ta').value),'_blank');
+ $('#dlg').close();persist();render();
+}
+function mv(i,d){
+ const c=S.cus[i];
+ if(c.s===3&&d>0){const act=S.files.filter(f=>f.st==='فعال');
+  form('ثبت قرارداد برای '+c.n,[{k:'f',l:'فایل معامله',o:act.map(f=>f.t).concat('بدون فایل')},{k:'cm',l:'کمیسیون دریافتی (به میلیون تومان)',y:'money',u:1}],
+  v=>{c.s=4;c.lc=now();S.deals.push({c:c.n,f:v.f,cm:M(+v.cm),d:now()});const f=S.files.find(x=>x.t===v.f);if(f)f.st='قرارداد شده'});return}
+ c.s=Math.max(0,Math.min(4,c.s+d));c.lc=now();persist();render();
+}
+function touch(id){const c=S.cus.find(x=>x.id===id);if(c){c.lc=now();persist();render()}}
+function del(k,id){
+ if(S.cf!==k+id){S.cf=k+id;render();return}
+ S.cf='';if(k==='f')S.files=S.files.filter(x=>x.id!==id);else S.cus=S.cus.filter(x=>x.id!==id);persist();render();
+}
+function tg(i){S.vis[i].d=!S.vis[i].d;persist();render()}
+function setF(f){S.flt=f;render()}
+function buildShowcase(files,prof){
+ const pubs=files.filter(f=>f.st==='فعال'&&f.pub!==false).map(f=>({t:f.t,a:f.a,ty:f.ty,p:f.p,m:f.m,r:f.r,f:f.f,x:f.x}));
+ const pr=prof||{};
+ const data=JSON.stringify({f:pubs,ph:pr.ph||'',ad:pr.ad||'',bio:pr.bio||'',ab:pr.ab||'',bl:pr.bl||'',ig:pr.ig||'',ap:pr.ap||''}).replace(/</g,'\\u003c');
+ return `<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>سهراب بهادر | بروکر املاک - BROKER AMLAK</title>
+<meta name="description" content="سهراب بهادر، بروکر املاک. فایل‌های خرید، فروش، رهن و اجاره با مشاوره‌ی شخصی و شفاف.">
+<meta property="og:title" content="سهراب بهادر | بروکر املاک"><meta property="og:description" content="فایل‌های خرید، فروش، رهن و اجاره با مشاوره‌ی شخصی"><meta property="og:type" content="website">
+<meta name="theme-color" content="#0E5A57">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--pr:#0E5A57;--pr2:#E1F0EF;--ac:#C98A12;--tx:#17282E;--mu:#5F727A;--ln:#DAE3E6;--bg:#F4F7F7}
+*{box-sizing:border-box}body{margin:0;font-family:Vazirmatn,Tahoma,sans-serif;background:var(--bg);color:var(--tx);line-height:1.9}
+.w{max-width:960px;margin:0 auto;padding:0 18px}
+.hero{background:linear-gradient(160deg,#0E5A57,#0A3F3D);color:#fff;padding:48px 0 76px;text-align:center}
+.av{width:92px;height:92px;border-radius:50%;background:#fff;margin:0 auto 14px;display:grid;place-items:center;box-shadow:0 0 0 5px rgba(255,255,255,.25)}
+h1{margin:0;font-size:32px;font-weight:800;line-height:1.4}
+.t{font-size:18px;font-weight:700;color:#F2C86B}
+.en{letter-spacing:.2em;font-size:12px;opacity:.7;direction:ltr}
+.hero p{max-width:520px;margin:14px auto 20px;opacity:.94}
+.act{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.cta{display:inline-block;background:var(--ac);color:#fff;border-radius:10px;padding:8px 22px;font-weight:700;text-decoration:none;border:0;font:inherit;font-weight:700;cursor:pointer}
+.cta.o{background:transparent;border:1.5px solid rgba(255,255,255,.7)}
+.hero .cta:not(.o){position:relative;overflow:hidden;background:linear-gradient(135deg,#9A6A0A 0%,#F3D77A 30%,#E2B33F 52%,#B8860B 78%,#F0CF70 100%);color:#2B1B02;text-shadow:0 1px 0 rgba(255,255,255,.45);border:1px solid rgba(255,236,170,.8);box-shadow:0 8px 22px rgba(201,138,18,.5),inset 0 1px 0 rgba(255,255,255,.75),inset 0 -2px 4px rgba(120,80,0,.35);padding:10px 34px;font-size:16px}
+.hero .cta:not(.o)::after{content:'';position:absolute;top:0;left:-60%;width:35%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.7),transparent);transform:skewX(-20deg);animation:sh 3.4s infinite}
+@keyframes sh{0%{left:-60%}55%,100%{left:130%}}
+.cta.s{padding:3px 16px;font-size:14px;background:var(--pr)}
+main{margin-top:-36px;padding-bottom:36px}
+.box{background:#fff;border:1px solid var(--ln);border-radius:16px;padding:20px;margin-bottom:16px}
+h2{margin:0 0 10px;font-size:19px}
+.ch{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.cc{display:flex;align-items:center;gap:12px;border:1px solid var(--ln);border-radius:14px;padding:12px 14px;text-decoration:none;color:inherit;background:var(--bg)}
+.cc i{font-style:normal;font-size:26px}.cc div{flex:1;min-width:0}.cc b{display:block}.cc span{color:var(--mu);font-size:13px;overflow-wrap:anywhere}.cc span.cta{color:#fff;font-size:14px}
+.bar{display:flex;gap:8px;margin-bottom:14px}
+.chip{border:1px solid var(--ln);background:#fff;border-radius:99px;padding:4px 18px;font:inherit;cursor:pointer}
+.chip.on{background:var(--pr);color:#fff;border-color:var(--pr)}
+.g{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(270px,1fr))}
+.c{background:#fff;border:1px solid var(--ln);border-radius:14px;padding:16px}
+.c h3{margin:6px 0 2px;font-size:17px}
+.m,.x{margin:0;color:var(--mu);font-size:14px}
+.p{font-weight:800;font-size:18px;margin:10px 0;color:var(--pr)}
+.b{display:inline-block;border-radius:6px;padding:0 10px;font-size:12px;font-weight:700;background:var(--pr2);color:var(--pr)}
+.b.r{background:#FBF1DC;color:var(--ac)}
+.e{color:var(--mu);text-align:center;padding:26px}
+.cc{padding:10px 14px;gap:10px}.cc i{font-size:22px}.cc div{text-align:right}.cc span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;direction:ltr;text-align:right;display:block}.cc span.go{color:var(--pr);font-size:26px;line-height:1;direction:rtl;flex:none;overflow:visible}
+footer{border-top:1px solid var(--ln);padding:22px 0;color:var(--mu);font-size:14px;text-align:center}
+</style></head><body>
+<header class="hero"><div class="w">
+<div class="av"><svg width="54" height="54" viewBox="0 0 512 512"><rect width="512" height="512" rx="110" fill="#0E5A57"/><polygon points="256,110 400,240 112,240" fill="#fff"/><rect x="152" y="240" width="208" height="150" fill="#fff"/><rect x="226" y="300" width="60" height="90" fill="#C98A12"/></svg></div>
+<h1>سهراب بهادر</h1><div class="t">بروکر املاک</div><div class="en">BROKER AMLAK</div>
+<p id="bio"></p><div class="act" id="act"></div></div></header>
+<main class="w">
+<section class="box" id="abs"><h2>درباره‌ی ما</h2><p id="ab" style="margin:0"></p></section>
+<section class="box" id="chs"><h2>راه‌های ارتباط</h2><div class="ch" id="ch"></div></section>
+<section class="box" id="fl"><h2>فایل‌های ملکی</h2><div class="bar" id="bar"></div><div class="g" id="g"></div></section>
+</main>
+<footer><div class="w" id="ft"></div></footer>
+<script type="application/json" id="d">${data}<\/script>
+<script>
+var D=JSON.parse(document.getElementById('d').textContent),flt='همه';
+function $(i){return document.getElementById(i)}
+function P(s){return String(s).replace(/\\d/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'[d]})}
+function N(n){return Number(n||0).toLocaleString('fa-IR')}
+function F(m){if(m>=1000){var b=Math.floor(m/1000),r=Math.round(m%1000);return N(b)+' میلیارد'+(r?' و '+N(r)+' میلیون':'')+' تومان'}return N(m)+' میلیون تومان'}
+function E(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function L(v,b){v=String(v||'').trim();if(!v)return '';if(/^https?:\\/\\//i.test(v))return v;return b+v.replace(/^@/,'').replace(/^\\/+/,'')}
+function HD(u){u=String(u).split('?')[0].split('#')[0];var p=u.split('/').filter(function(x){return x});return '@'+(p[p.length-1]||'').replace('@','')}
+var PH=String(D.ph||'').split(/[,،]+/).map(function(x){return x.trim()}).filter(Boolean);
+var bl=L(D.bl,'https://ble.ir/'),ig=L(D.ig,'https://instagram.com/'),ap=L(D.ap,'');
+$('bio').textContent=D.bio||'BROKER AMLAK مبتکر خدمات هوشمند ملکی';
+if(D.ab)$('ab').textContent=D.ab;else $('abs').style.display='none';
+var a='';if(PH[0])a+='<a class="cta" href="tel:'+E(PH[0])+'">تماس با من</a>';if(ap)a+='<a class="cta o" href="'+E(ap)+'">دانلود اپ</a>';$('act').innerHTML=a;
+var c='';
+if(bl)c+='<a class="cc" target="_blank" rel="noopener" href="'+E(bl)+'"><i>💬</i><div><b>کانال بله</b><span>'+E(HD(bl))+'</span></div><span class="go">‹</span></a>';
+if(ig)c+='<a class="cc" target="_blank" rel="noopener" href="'+E(ig)+'"><i>📷</i><div><b>اینستاگرام</b><span>'+E(HD(ig))+'</span></div><span class="go">‹</span></a>';
+PH.forEach(function(p){c+='<a class="cc" href="tel:'+E(p)+'"><i>📞</i><div><b>شماره تماس</b><span dir="ltr">'+P(E(p))+'</span></div><span class="go">‹</span></a>'});
+if(c)$('ch').innerHTML=c;else $('chs').style.display='none';
+$('ft').innerHTML='سهراب بهادر · بروکر املاک'+(D.ad?'<br>'+E(D.ad):'');
+function setF(f){flt=f;draw()}
+function draw(){
+ if(!D.f.length){$('bar').style.display='none';$('g').innerHTML='<p class="e">در حال حاضر فایلی برای نمایش نیست. برای دریافت فایل‌های جدید تماس بگیرید یا کانال‌ها را دنبال کنید.</p>';return}
+ $('bar').innerHTML=['همه'].concat(['فروش','رهن و اجاره','خرید','تهاتر'].filter(function(t){return D.f.some(function(f){return f.ty===t})})).map(function(x){return '<button class="chip'+(flt===x?' on':'')+'" data-f="'+x+'" onclick="setF(this.dataset.f)">'+x+'</button>'}).join('');
+ var h='';D.f.filter(function(f){return flt==='همه'||f.ty===flt}).forEach(function(f){
+  h+='<article class="c"><span class="b'+(f.ty==='فروش'?'':' r')+'">'+E(f.ty)+'</span><h3>'+E(f.t)+'</h3><p class="m">'+E(f.a)+' · '+N(f.m)+' متر · '+N(f.r)+' خواب'+(f.f&&f.f!=='—'?' · طبقه '+E(f.f):'')+'</p><p class="x">'+E(f.x)+'</p><div class="p">'+({'رهن و اجاره':'رهن ','خرید':'بودجه ','تهاتر':'ارزش '}[f.ty]||'')+F(f.p)+'</div>'+(PH[0]?'<a class="cta s" href="tel:'+E(PH[0])+'">تماس برای بازدید</a>':'')+'</article>'});
+ $('g').innerHTML=h||'<p class="e">فایلی در این دسته نیست.</p>';
+}
+draw();
+<\/script></body></html>`;
+}
+function setProf(){const q=S.prof;form('اطلاعات ویترین',[{k:'ph',l:'شماره تماس (چند شماره را با ویرگول جدا کنید)',y:'tel',v:q.ph},{k:'bio',l:'معرفی کوتاه زیر اسم (اختیاری)',v:q.bio,opt:1},{k:'ab',l:'متن «درباره‌ی ما» (اختیاری)',v:q.ab,opt:1},{k:'bl',l:'کانال بله: آیدی یا لینک (اختیاری)',v:q.bl,opt:1},{k:'ig',l:'اینستاگرام: آیدی یا لینک (اختیاری)',v:q.ig,opt:1},{k:'ap',l:'لینک دانلود اپ (اختیاری)',v:q.ap,opt:1},{k:'ad',l:'آدرس یا محدوده‌ی فعالیت (اختیاری)',v:q.ad,opt:1}],v=>S.prof={ph:v.ph,bio:v.bio,ab:v.ab,bl:v.bl,ig:v.ig,ap:v.ap,ad:v.ad})}
+function tgPub(id){const f=S.files.find(x=>x.id===id);f.pub=f.pub===false;persist();render()}
+function preview(){const d=$('#dlg2');d.innerHTML='<iframe style="width:100%;height:70vh;border:0;border-radius:10px" srcdoc="'+esc(buildShowcase(S.files,S.prof))+'"></iframe><div class="row"><button class="btn ghost" onclick="$(\'#dlg2\').close()">بستن</button></div>';d.showModal()}
+function dlShow(){const h=buildShowcase(S.files,S.prof),a=document.createElement('a');a.href=URL.createObjectURL(new Blob([h],{type:'text/html'}));a.download='index.html';a.click()}
+const visList=()=>S.vis.length?S.vis.map(v=>`<div class="vis ${v.d?'done':''}"><time>${P(v.t)}</time><div>${esc(v.c)}<div class="meta">${esc(v.f)}</div></div></div>`).join(''):'<p class="empty">امروز بازدیدی ثبت نشده.</p>';
+const V={
+dash(){
+ const e=!(S.files.length+S.cus.length+S.vis.length+S.deals.length),r=rl(),pc=Math.min(100,Math.round(r/S.goal*100)),d=due();
+ const cnt=STAGES.map((_,i)=>S.cus.filter(c=>c.s===i).length),mx=Math.max(1,...cnt);
+ return (e?'<div class="card" style="margin-bottom:12px"><h3>خوش آمدید</h3><p class="meta">هنوز اطلاعاتی ثبت نشده. فایل یا مشتری اضافه کنید، یا اول با داده‌ی نمونه امتحان کنید.</p><button class="btn ghost sm" onclick="seed()">افزودن داده نمونه</button></div>':'')+
+ `<div class="stats">${[[S.files.filter(f=>f.st==='فعال').length,'فایل فعال'],[S.cus.filter(c=>c.s<4).length,'مشتری در جریان'],[S.vis.length,'بازدید امروز'],[r,'میلیون تومان درآمد ۳۰ روز']].map(x=>`<div class="card stat"><b>${N(x[0])}</b><span>${x[1]}</span></div>`).join('')}</div>
+ <div class="card" style="margin-bottom:12px"><h3>هدف ماهانه: ${fmt(S.goal)}</h3><div class="prog"><div style="width:${pc}%"></div></div><span class="meta">${P(pc)}٪ از هدف · پیش‌بینی پرونده‌های جاری: ${fmt(fc())}</span></div>
+ <div class="two"><div class="card"><h3>نیاز به پیگیری</h3>${d.length?d.slice(0,5).map(c=>`<div class="vis"><div>${esc(c.n)}<div class="meta">${N(ago(c.lc))} روز از آخرین تماس · ${STAGES[c.s]}</div></div><a class="btn ghost sm" href="tel:${esc(c.p)}" onclick="touch('${c.id}')">تماس</a></div>`).join(''):'<p class="empty">همه‌ی مشتری‌ها به‌روز هستند.</p>'}</div>
+ <div class="card"><h3>برنامه امروز</h3>${visList()}</div></div>
+ <div class="card" style="margin-top:12px"><h3>مسیر مشتری‌ها</h3>${STAGES.map((s,i)=>`<div class="hb"><em>${s}</em><div style="width:${cnt[i]/mx*60}%"></div><span class="meta">${N(cnt[i])}</span></div>`).join('')}</div>`},
+files(){
+ const L=S.files.filter(f=>S.flt==='همه'||f.ty===S.flt);
+ return `<div class="bar"><div class="chips">${['همه',...TY].map(c=>`<button class="chip ${S.flt===c?'on':''}" onclick="setF('${c}')">${c}</button>`).join('')}</div><button class="btn" onclick="addFile()">فایل جدید</button></div>
+ <div class="grid">${L.map(f=>`<div class="card"><span class="badge ${f.ty==='فروش'?'':'r'}">${f.ty}</span> <span class="meta">${f.st}</span><h3 style="margin-top:6px">${esc(f.t)}</h3><div class="meta">${esc(f.a)} · ${N(f.m)} متر · ${N(f.r)} خواب<br>مالک: ${esc(f.ow||'—')} ${f.op?`<a href="tel:${esc(f.op)}">تماس</a>`:''}</div><div class="price">${PL[f.ty]||''}${fmt(f.p)}</div><div class="meta">کمیسیون: ${fmt(f.cm||0)}</div>${nc(f)?`<div class="match">${N(nc(f))} مشتری مناسب دارید</div>`:''}<div class="mv"><button class="btn sm" onclick="ad('${f.id}')">ارائه به مشتری</button><button class="btn ghost sm" onclick="editFile('${f.id}')">ویرایش</button><button class="btn ghost sm" onclick="del('f','${f.id}')">${S.cf==='f'+f.id?'تأیید حذف':'حذف'}</button></div></div>`).join('')||'<p class="empty">فایلی ثبت نشده. اولین فایل را اضافه کنید.</p>'}</div>`},
+crm(){
+ return `<div class="bar"><h2 style="margin:0">مسیر فروش</h2><button class="btn" onclick="addCus()">مشتری جدید</button></div>
+ <div class="board">${STAGES.map((s,si)=>{const L=S.cus.map((c,i)=>({c,i})).filter(x=>x.c.s===si);
+ return `<section class="col"><h3>${s}<span class="meta">${N(L.length)}</span></h3>${L.map(({c,i})=>`<div class="card"><b>${esc(c.n)}</b><div class="meta">${c.ty==='فروش'?'خرید':c.ty} · تا ${fmt(c.b)}<br>${esc(c.a)} · <a dir="ltr" href="tel:${esc(c.p)}">${P(esc(c.p))}</a><br>${N(c.pr.length)} فایل ارائه‌شده · ${N(ago(c.lc))} روز از آخرین تماس</div>${c.nt?`<div class="meta" style="white-space:pre-wrap;margin-top:6px">📝 ${esc(c.nt)}</div>`:''}${nm(c)?`<div class="match">${N(nm(c))} فایل مناسب دارید</div>`:''}<div class="mv"><button class="btn ghost sm" ${si===4?'disabled':''} onclick="mv(${i},1)">مرحله بعد</button><button class="btn ghost sm" ${si===0?'disabled':''} onclick="mv(${i},-1)">قبلی</button><button class="btn ghost sm" onclick="touch('${c.id}')">ثبت تماس</button><button class="btn ghost sm" onclick="editCus('${c.id}')">ویرایش</button><button class="btn ghost sm" onclick="note('${c.id}')">${c.nt?'ویرایش یادداشت':'یادداشت'}</button><button class="btn ghost sm" onclick="del('c','${c.id}')">${S.cf==='c'+c.id?'تأیید حذف':'حذف'}</button></div></div>`).join('')}</section>`}).join('')}</div>`},
+vis(){
+ return `<div class="bar"><h2 style="margin:0">بازدیدهای امروز</h2><button class="btn" onclick="addVis()">بازدید جدید</button></div>
+ <div class="card">${S.vis.length?S.vis.map((v,i)=>`<div class="vis ${v.d?'done':''}"><time>${P(v.t)}</time><div>${esc(v.c)}<div class="meta">${esc(v.f)}</div></div><button class="btn ghost sm" onclick="tg(${i})">${v.d?'برگرداندن':'انجام شد'}</button></div>`).join(''):'<p class="empty">بازدیدی ثبت نشده. اولین بازدید را اضافه کنید.</p>'}</div>`},
+pub(){
+ const L=S.files.filter(f=>f.st==='فعال'),pr=S.prof,on=L.filter(f=>f.pub!==false).length;
+ return `<div class="bar"><h2 style="margin:0">ویترین مشتری</h2><div class="row" style="margin:0"><button class="btn ghost" onclick="preview()">پیش‌نمایش</button><button class="btn" onclick="dlShow()">دانلود فایل ویترین</button></div></div>
+ <div class="two"><div class="card"><h3>اطلاعات تماس شما</h3><p class="meta">${pr.ph?'موبایل: '+P(esc(pr.ph)):'شماره‌ای ثبت نشده'}<br>${esc(pr.ad||'آدرس ثبت نشده')}<br>بله: ${esc(pr.bl||'—')} · اینستاگرام: ${esc(pr.ig||'—')}</p><button class="btn ghost sm" onclick="setProf()">ویرایش</button></div>
+ <div class="card"><h3>مشتری چه چیزی می‌بیند؟</h3><p class="meta">فقط عنوان، محله، قیمت، متراژ، تعداد خواب، طبقه و امکانات. کمیسیون، اطلاعات مالک، لیست مشتری‌ها و برنامه‌ی شما هرگز در ویترین نیست.</p></div></div>
+ <div class="card" style="margin-top:12px"><h3>فایل‌های قابل نمایش (${N(on)} از ${N(L.length)})</h3>${L.length?L.map(f=>`<div class="vis"><div>${esc(f.t)}<div class="meta">${esc(f.a)} · ${fmt(f.p)}</div></div><button class="btn ${f.pub===false?'ghost ':''}sm" onclick="tgPub('${f.id}')">${f.pub===false?'پنهان':'نمایش'}</button></div>`).join(''):'<p class="empty">هنوز فایل فعالی ندارید.</p>'}</div>`},
+inc(){
+ const r=rl(),act=S.files.filter(x=>x.st==='فعال'),avg=act.length?act.reduce((a,x)=>a+(x.cm||0),0)/act.length:0,rem=Math.max(0,S.goal-r),need=avg?Math.ceil(rem/avg):0,pc=Math.min(100,Math.round(r/S.goal*100));
+ return `<div class="bar"><h2 style="margin:0">درآمد</h2><button class="btn ghost" onclick="setGoal()">تغییر هدف</button></div>
+ <div class="stats"><div class="card stat"><b>${N(r)}</b><span>میلیون تومان، ۳۰ روز اخیر</span></div><div class="card stat"><b>${N(fc())}</b><span>پیش‌بینی پرونده‌های جاری</span></div><div class="card stat"><b>${N(S.goal)}</b><span>هدف ماهانه</span></div><div class="card stat"><b>${N(S.deals.length)}</b><span>قرارداد ثبت‌شده</span></div></div>
+ <div class="card" style="margin-bottom:12px"><div class="prog"><div style="width:${pc}%"></div></div><p style="margin:0">${rem?(need?`برای رسیدن به هدف حدود <b>${N(need)}</b> معامله‌ی دیگر لازم است. میانگین کمیسیون فایل‌های فعال شما ${fmt(Math.round(avg))} است.`:'برای محاسبه، اول فایل فعال با کمیسیون ثبت کنید.'):'به هدف این ماه رسیدید.'}</p></div>
+ <div class="card"><h3>قراردادها</h3>${S.deals.length?[...S.deals].reverse().map(x=>`<div class="vis"><div>${esc(x.c)}<div class="meta">${esc(x.f)} · ${N(ago(x.d))} روز پیش</div></div><b>${fmt(x.cm)}</b></div>`).join(''):'<p class="empty">وقتی مشتری را به مرحله‌ی قرارداد ببرید، کمیسیون اینجا ثبت می‌شود.</p>'}</div>`}
+};
+function render(){
+ $('#nav').innerHTML=TABS.map(t=>`<button class="${S.tab===t[0]?'on':''}" onclick="go('${t[0]}')">${t[1]}</button>`).join('');
+ $('#view').innerHTML=V[S.tab]();
+}
+render();
+try{const raw=localStorage.getItem(KEY);if(raw)loadState(JSON.parse(raw))}catch(e){}
+render();
+try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
+let IP=null;addEventListener('beforeinstallprompt',e=>{e.preventDefault();IP=e;$('#ib').hidden=false});
+function inst(){if(IP){IP.prompt();IP=null;$('#ib').hidden=true}}
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
