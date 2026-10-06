@@ -44,7 +44,7 @@ footer{border-top:1px solid var(--ln);padding:22px 0;color:var(--mu);font-size:1
 <header class="hero"><div class="w">
 <div class="av"><svg width="54" height="54" viewBox="0 0 512 512"><rect width="512" height="512" rx="110" fill="#0E5A57"/><polygon points="256,110 400,240 112,240" fill="#fff"/><rect x="152" y="240" width="208" height="150" fill="#fff"/><rect x="226" y="300" width="60" height="90" fill="#C98A12"/></svg></div>
 <h1>سهراب بهادر</h1><div class="t">بروکر املاک</div><div class="en">BROKER AMLAK</div>
-<p id="bio"></p><div class="act" id="act"></div></header>
+<p id="bio"></p><div class="act" id="act"></div></div></header>
 <main class="w">
 <section class="box" id="abs"><h2>درباره‌ی ما</h2><p id="ab" style="margin:0"></p></section>
 <section class="box" id="chs"><h2>راه‌های ارتباط</h2><div class="ch" id="ch"></div></section>
@@ -74,7 +74,7 @@ if(c)$('ch').innerHTML=c;else $('chs').style.display='none';
 $('ft').innerHTML='سهراب بهادر · بروکر املاک'+(D.ad?'<br>'+E(D.ad):'');
 function setF(f){flt=f;draw()}
 function draw(){
- if(!D.f.length){\( ('bar').style.display='none'; \)('g').innerHTML='<p class="e">در حال حاضر فایلی برای نمایش نیست. برای دریافت فایل‌های جدید تماس بگیرید یا کانال‌ها را دنبال کنید.</p>';return}
+ if(!D.f.length){$('bar').style.display='none';$('g').innerHTML='<p class="e">در حال حاضر فایلی برای نمایش نیست. برای دریافت فایل‌های جدید تماس بگیرید یا کانال‌ها را دنبال کنید.</p>';return}
  $('bar').innerHTML=['همه'].concat(['فروش','رهن و اجاره','خرید','تهاتر'].filter(function(t){return D.f.some(function(f){return f.ty===t})})).map(function(x){return '<button class="chip'+(flt===x?' on':'')+'" data-f="'+x+'" onclick="setF(this.dataset.f)">'+x+'</button>'}).join('');
  var h='';D.f.filter(function(f){return flt==='همه'||f.ty===flt}).forEach(function(f){
   h+='<article class="c"><span class="b'+(f.ty==='فروش'?'':' r')+'">'+E(f.ty)+'</span><h3>'+E(f.t)+'</h3><p class="m">'+E(f.a)+' · '+N(f.m)+' متر · '+N(f.r)+' خواب'+(f.f&&f.f!=='—'?' · طبقه '+E(f.f):'')+'</p><p class="x">'+E(f.x)+'</p><div class="p">'+({'رهن و اجاره':'رهن ','خرید':'بودجه ','تهاتر':'ارزش '}[f.ty]||'')+F(f.p)+'</div>'+(PH[0]?'<a class="cta s" href="tel:'+E(PH[0])+'">تماس برای بازدید</a>':'')+'</article>'});
