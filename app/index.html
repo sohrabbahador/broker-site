@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0E5A57"><link rel="apple-touch-icon" href="icon-192.png">
+<meta name="robots" content="noindex,nofollow">
 <title>سهراب بهادر | بروکر املاک - BROKER AMLAK</title>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
@@ -79,7 +80,7 @@ a{color:var(--pr)}
 <div class="shell">
 <header><div class="brand"><span class="mark"><i></i></span><span>سهراب بهادر<small>بروکر املاک · BROKER AMLAK</small></span></div><div style="display:flex;gap:8px;align-items:center"><span class="date" id="dt"></span><button id="ib" class="btn sm" hidden onclick="inst()">نصب اپ</button></div></header>
 <main id="view"></main>
-<p class="meta" id="st" style="text-align:center;margin-top:20px">نسخه ۶</p>
+<p class="meta" id="st" style="text-align:center;margin-top:20px">نسخه ۷</p>
 <div class="row" style="justify-content:center"><button class="btn ghost sm" onclick="backup()">پشتیبان‌گیری</button><button class="btn ghost sm" onclick="$('#rf').click()">بازیابی</button><input id="rf" type="file" accept=".json" hidden onchange="restore(this)"></div>
 </div>
 <nav id="nav"></nav>
@@ -89,7 +90,7 @@ const $=s=>document.querySelector(s),P=s=>String(s).replace(/\d/g,d=>'۰۱۲۳۴
 const fmt=m=>{if(m>=1000){const b=Math.floor(m/1000),r=Math.round(m%1000);return N(b)+' میلیارد'+(r?' و '+N(r)+' میلیون':'')+' تومان'}return N(m)+' میلیون تومان'};
 const DAY=864e5,now=()=>Date.now(),ago=d=>Math.floor((now()-d)/DAY);
 const STAGES=['سرنخ جدید','تماس گرفته شد','بازدید','مذاکره','قرارداد'],PROB=[.05,.15,.3,.6,1];
-const S={tab:'dash',flt:'همه',files:[],cus:[],vis:[],deals:[],goal:150,cf:'',prof:{ph:'',ad:'',bio:''}};
+const S={tab:'dash',flt:'همه',files:[],cus:[],vis:[],deals:[],goal:150,cf:'',prof:{ph:'09123692401,09003692401',bio:'BROKER AMLAK مبتکر خدمات هوشمند ملکی',ab:'',bl:'BROKER_amlak',ig:'broker_amlak.ir',ap:'',ad:''}};
 const sample=()=>({files:[
 {id:'f1',t:'آپارتمان ۱۲۰ متری نوساز',a:'سعادت‌آباد',ty:'فروش',p:9800,m:120,r:2,f:'۵',x:'پارکینگ، انباری، لابی',ow:'آقای حیدری',op:'09121110000',cm:98,st:'فعال'},
 {id:'f2',t:'برج باغ، نما رومی',a:'الهیه',ty:'فروش',p:24500,m:185,r:3,f:'۱۰',x:'استخر، سونا، نگهبانی',ow:'خانم شریفی',op:'09122223333',cm:245,st:'فعال'},
@@ -103,10 +104,40 @@ cus:[
 vis:[{t:'10:30',c:'رضا کریمی',f:'آپارتمان ۸۵ متری، ونک',d:false},{t:'16:30',c:'مریم احمدی',f:'آپارتمان ۱۲۰ متری، سعادت‌آباد',d:false}]});
 const KEY='ba_state_v1';
 function stat(t,c){const e=$('#st');if(e){e.textContent=t;e.style.color=c||''}}
-function persist(){try{localStorage.setItem(KEY,JSON.stringify({files:S.files,cus:S.cus,vis:S.vis,deals:S.deals,goal:S.goal,prof:S.prof}));stat('✓ ذخیره شد روی این دستگاه')}catch(e){stat('⚠ ذخیره روی این دستگاه انجام نشد؛ حتماً «پشتیبان‌گیری» بزنید','#c0392b')}}
-function loadState(d){S.files=d.files||[];S.cus=d.cus||[];S.vis=d.vis||[];S.deals=d.deals||[];S.goal=d.goal||150;S.prof=d.prof||S.prof;S.files.forEach((f,i)=>{f.id=f.id||'f'+i});S.cus.forEach((c,i)=>{c.id=c.id||'c'+i;c.pr=c.pr||[];c.lc=c.lc||now()})}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify({files:S.files,cus:S.cus,vis:S.vis,deals:S.deals,goal:S.goal,prof:S.prof}));stat('✓ ذخیره شد روی این دستگاه');schedPub()}catch(e){stat('⚠ ذخیره روی این دستگاه انجام نشد؛ حتماً «پشتیبان‌گیری» بزنید','#c0392b')}}
+function loadState(d){S.files=d.files||[];S.cus=d.cus||[];S.vis=d.vis||[];S.deals=d.deals||[];S.goal=d.goal||150;{const DF=Object.assign({},S.prof),sv=d.prof||{};Object.keys(sv).forEach(k=>{if(sv[k])DF[k]=sv[k]});S.prof=DF}S.files.forEach((f,i)=>{f.id=f.id||'f'+i});S.cus.forEach((c,i)=>{c.id=c.id||'c'+i;c.pr=c.pr||[];c.lc=c.lc||now()})}
 function backup(){const b=new Blob([JSON.stringify({files:S.files,cus:S.cus,vis:S.vis,deals:S.deals,goal:S.goal,prof:S.prof})],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='broker-amlak-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click()}
 function restore(i){const f=i.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{loadState(JSON.parse(r.result));persist();render()}catch(e){stat('⚠ فایل پشتیبان معتبر نیست','#c0392b')}};r.readAsText(f)}
+const GK='ba_gh_v1';
+function ghc(){try{return JSON.parse(localStorage.getItem(GK)||'null')}catch(e){return null}}
+function ghs(c){localStorage.setItem(GK,JSON.stringify(c))}
+function hsh(t){let h=0;for(let i=0;i<t.length;i++)h=(h*31+t.charCodeAt(i))|0;return h+':'+t.length}
+let PT=null,PB=false;
+function schedPub(){const c=ghc();if(!c||!c.auto)return;clearTimeout(PT);PT=setTimeout(()=>pubSite(false),2500)}
+async function pubSite(force){
+ const c=ghc();if(!c){stat('⚠ اول «اتصال به سایت» را انجام دهید','#c0392b');return}
+ const html=buildShowcase(S.files,S.prof),h=hsh(html);
+ if(!force&&c.last===h)return;
+ if(PB){clearTimeout(PT);PT=setTimeout(()=>pubSite(force),2500);return}
+ PB=true;stat('… در حال انتشار در سایت');
+ try{
+  const api='https://api.github.com/repos/'+c.repo+'/contents/index.html',H={Authorization:'Bearer '+c.tk,Accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'};
+  const bytes=new TextEncoder().encode(html);let bin='';bytes.forEach(x=>bin+=String.fromCharCode(x));
+  for(let i=0;i<2;i++){
+   const g=await fetch(api+'?ref=main&_='+Date.now(),{headers:H,cache:'no-store'});
+   if(!g.ok)throw new Error('S'+g.status);
+   const sha=(await g.json()).sha;
+   const r=await fetch(api,{method:'PUT',headers:Object.assign({'Content-Type':'application/json'},H),body:JSON.stringify({message:'update showcase',content:btoa(bin),sha:sha,branch:'main'})});
+   if(r.ok){c.last=h;ghs(c);stat('✓ ویترین سایت به‌روز شد؛ تا یکی دو دقیقه دیگر در سایت دیده می‌شود');return}
+   if(r.status!==409&&r.status!==422)throw new Error('S'+r.status)
+  }
+  throw new Error('conflict')
+ }catch(e){const m=String(e.message);stat(/S40[134]/.test(m)?'⚠ توکن نامعتبر است یا به این مخزن دسترسی ندارد':'⚠ انتشار انجام نشد (اینترنت یا VPN؟)؛ با تغییر بعدی یا دکمه‌ی «انتشار همین الان» دوباره امتحان می‌شود','#c0392b')}
+ finally{PB=false}
+}
+function setupGH(){form('اتصال به سایت',[{k:'tk',l:'توکن GitHub (با github_pat_ شروع می‌شود)',y:'password'},{k:'rp',l:'مخزن (همین را نگه دارید)',v:'sohrabbahador/broker-site'}],v=>{ghs({tk:v.tk,repo:v.rp,auto:1,last:''});setTimeout(()=>pubSite(true),300)})}
+function ghAuto(){const c=ghc();if(c){c.auto=c.auto?0:1;ghs(c);render()}}
+function ghOff(){localStorage.removeItem(GK);render()}
 function seed(){const x=sample();S.files=x.files;S.cus=x.cus;S.vis=x.vis;persist();render()}
 const fits=(c,f)=>f.st==='فعال'&&(c.ty==='خرید'?'فروش':c.ty)===f.ty&&f.p<=c.b;
 const nm=c=>S.files.filter(f=>fits(c,f)).length,nc=f=>S.cus.filter(c=>c.s<4&&fits(c,f)).length;
@@ -308,6 +339,7 @@ vis(){
 pub(){
  const L=S.files.filter(f=>f.st==='فعال'),pr=S.prof,on=L.filter(f=>f.pub!==false).length;
  return `<div class="bar"><h2 style="margin:0">ویترین مشتری</h2><div class="row" style="margin:0"><button class="btn ghost" onclick="preview()">پیش‌نمایش</button><button class="btn" onclick="dlShow()">دانلود فایل ویترین</button></div></div>
+ ${(()=>{const c=ghc();return `<div class="card" style="margin-bottom:12px"><h3>انتشار خودکار در سایت</h3><p class="meta">${c?'متصل است. هر تغییر در فایل‌ها یا اطلاعات ویترین خودکار روی سایت می‌رود.':'برای این‌که هر فایل ثبت‌شده خودکار در سایت دیده شود، یک بار به سایت وصل شوید.'}</p><div class="mv">${c?`<button class="btn sm" onclick="pubSite(true)">انتشار همین الان</button><button class="btn ghost sm" onclick="ghAuto()">انتشار خودکار: ${c.auto?'روشن':'خاموش'}</button><button class="btn ghost sm" onclick="ghOff()">قطع اتصال</button>`:'<button class="btn sm" onclick="setupGH()">اتصال به سایت</button>'}</div></div>`})()}
  <div class="two"><div class="card"><h3>اطلاعات تماس شما</h3><p class="meta">${pr.ph?'موبایل: '+P(esc(pr.ph)):'شماره‌ای ثبت نشده'}<br>${esc(pr.ad||'آدرس ثبت نشده')}<br>بله: ${esc(pr.bl||'—')} · اینستاگرام: ${esc(pr.ig||'—')}</p><button class="btn ghost sm" onclick="setProf()">ویرایش</button></div>
  <div class="card"><h3>مشتری چه چیزی می‌بیند؟</h3><p class="meta">فقط عنوان، محله، قیمت، متراژ، تعداد خواب، طبقه و امکانات. کمیسیون، اطلاعات مالک، لیست مشتری‌ها و برنامه‌ی شما هرگز در ویترین نیست.</p></div></div>
  <div class="card" style="margin-top:12px"><h3>فایل‌های قابل نمایش (${N(on)} از ${N(L.length)})</h3>${L.length?L.map(f=>`<div class="vis"><div>${esc(f.t)}<div class="meta">${esc(f.a)} · ${fmt(f.p)}</div></div><button class="btn ${f.pub===false?'ghost ':''}sm" onclick="tgPub('${f.id}')">${f.pub===false?'پنهان':'نمایش'}</button></div>`).join(''):'<p class="empty">هنوز فایل فعالی ندارید.</p>'}</div>`},
