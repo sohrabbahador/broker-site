@@ -51,7 +51,7 @@ footer{border-top:1px solid var(--ln);padding:22px 0;color:var(--mu);font-size:1
 <section class="box" id="fl"><h2>فایل‌های ملکی</h2><div class="bar" id="bar"></div><div class="g" id="g"></div></section>
 </main>
 <footer><div class="w" id="ft"></div></footer>
-<script type="application/json" id="d">{"f":[{"t":"آپارتمان 110متری «کلید نخورده»","a":"ستاری شمال «هجرت» ـ گلزار","ty":"فروش","p":48400,"m":110,"r":2,"f":"—","x":"آسانسور ،پارکینگ ،انباری، تراس، ۷ ساله کلید نخورده، ۵ طبقه ،دو واحدی، طبقه اول"}],"ph":"09123692401,09003692401","ad":"","bio":"BROKER AMLAK مبتکر خدمات هوشمند ملکی","ab":"","bl":"BROKER_amlak","ig":"broker_amlak.ir","ap":""}</script>
+<script type="application/json" id="d">{"f":[{"t":"آپارتمان 110متری «کلید نخورده»","a":"ستاری شمال «هجرت» ـ گلزار","ty":"فروش","p":48400,"m":110,"r":2,"f":"—","x":"آسانسور ،پارکینگ ،انباری، تراس، ۷ ساله کلید نخورده، ۵ طبقه ،دو واحدی، طبقه اول"}],"ph":"09123692401","ad":"","bio":"BROKER AMLAK مبتکر خدمات هوشمند ملکی","ab":"","bl":"BROKER_amlak","ig":"broker_amlak.ir","ap":""}</script>
 <script>
 var D=JSON.parse(document.getElementById('d').textContent),flt='همه';
 function $(i){return document.getElementById(i)}
@@ -65,7 +65,7 @@ var PH=String(D.ph||'').split(/[,،]+/).map(function(x){return x.trim()}).filter
 var bl=L(D.bl,'https://ble.ir/'),ig=L(D.ig,'https://instagram.com/'),ap=L(D.ap,'');
 $('bio').textContent=D.bio||'BROKER AMLAK مبتکر خدمات هوشمند ملکی';
 if(D.ab)$('ab').textContent=D.ab;else $('abs').style.display='none';
-var a='';if(PH[0])a+='<a class="cta" href="tel:'+E(PH[0])+'">پشتیبانی</a>';if(ap)a+='<a class="cta o" href="'+E(ap)+'">دانلود اپ</a>';$('act').innerHTML=a;
+var a='';if(PH[0])a+='<a class="cta" href="tel:'+E(PH[0])+'">تماس با من</a>';if(ap)a+='<a class="cta o" href="'+E(ap)+'">دانلود اپ</a>';$('act').innerHTML=a;
 var c='';
 if(bl)c+='<a class="cc" target="_blank" rel="noopener" href="'+E(bl)+'"><i>💬</i><div><b>کانال بله</b><span>'+E(HD(bl))+'</span></div><span class="go">‹</span></a>';
 if(ig)c+='<a class="cc" target="_blank" rel="noopener" href="'+E(ig)+'"><i>📷</i><div><b>اینستاگرام</b><span>'+E(HD(ig))+'</span></div><span class="go">‹</span></a>';
