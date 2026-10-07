@@ -65,7 +65,7 @@ var PH=String(D.ph||'').split(/[,،]+/).map(function(x){return x.trim()}).filter
 var bl=L(D.bl,'https://ble.ir/'),ig=L(D.ig,'https://instagram.com/'),ap=L(D.ap,'');
 $('bio').textContent=D.bio||'BROKER AMLAK مبتکر خدمات هوشمند ملکی';
 if(D.ab)$('ab').textContent=D.ab;else $('abs').style.display='none';
-var a='';if(PH[0])a+='<a class="cta" href="tel:'+E(PH[0])+'">تماس با من</a>';if(ap)a+='<a class="cta o" href="'+E(ap)+'">دانلود اپ</a>';$('act').innerHTML=a;
+var a='';if(PH[0])a+='<a class="cta" href="tel:'+E(PH[0])+'">پشتیبانی</a>';if(ap)a+='<a class="cta o" href="'+E(ap)+'">دانلود اپ</a>';$('act').innerHTML=a;
 var c='';
 if(bl)c+='<a class="cc" target="_blank" rel="noopener" href="'+E(bl)+'"><i>💬</i><div><b>کانال بله</b><span>'+E(HD(bl))+'</span></div><span class="go">‹</span></a>';
 if(ig)c+='<a class="cc" target="_blank" rel="noopener" href="'+E(ig)+'"><i>📷</i><div><b>اینستاگرام</b><span>'+E(HD(ig))+'</span></div><span class="go">‹</span></a>';
