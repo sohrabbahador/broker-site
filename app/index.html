@@ -233,6 +233,9 @@ function buildShowcase(files,prof){
  return SHOWCASE_TEMPLATE.replace('__BROKER_DATA__',data).replace('__BROKER_PHONE_JSON__',phoneJson).replace('__BROKER_SAMEAS_JSON__',sameAs);
 }
 
+function tgPub(id){const f=S.files.find(x=>x.id===id);if(!f)return;f.pub=f.pub===false;persist();render()}
+function preview(){const d=$('#dlg2');if(!d)return;d.innerHTML='<iframe style="width:100%;height:70vh;border:0;border-radius:10px" srcdoc="'+esc(buildShowcase(S.files,S.prof))+'"></iframe><div class="row"><button class="btn ghost" onclick="$(\'#dlg2\').close()">بستن</button></div>';d.showModal()}
+function dlShow(){const h=buildShowcase(S.files,S.prof),a=document.createElement('a');a.href=URL.createObjectURL(new Blob([h],{type:'text/html'}));a.download='index.html';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
 const visList=()=>S.vis.length?S.vis.map(v=>`<div class="vis ${v.d?'done':''}"><time>${P(v.t)}</time><div>${esc(v.c)}<div class="meta">${esc(v.f)}</div></div></div>`).join(''):'<p class="empty">امروز بازدیدی ثبت نشده.</p>';
 const V={
 dash(){
