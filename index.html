@@ -576,9 +576,8 @@ function renderAbout(){
 let imageManifest={};
 fetch('images/manifest.json',{cache:'no-cache'}).then(r=>r.ok?r.json():{}).then(v=>{if(v&&typeof v==='object'&&!Array.isArray(v))imageManifest=v;draw()}).catch(()=>{});
 function propertyImage(f,idx){
- const name=f.id&&imageManifest[f.id];
- if(typeof name==='string'&&name.trim()&&!name.includes('..')&&!name.startsWith('/')&&!/^https?:/i.test(name))
-  return 'images/'+name.split('/').map(encodeURIComponent).join('/');
+ const path=f.id&&imageManifest[f.id];
+ if(typeof path==='string'&&path.startsWith('images/')&&!path.includes('..')&&!path.startsWith('/')&&!/^https?:/i.test(path))return path.split('/').map(encodeURIComponent).join('/');
  return pics[idx%pics.length];
 }
 function draw(){
