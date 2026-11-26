@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /app/
+
+Sitemap: https://broker-amlak.ir/sitemap.xml
