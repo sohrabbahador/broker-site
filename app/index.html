@@ -138,7 +138,7 @@ async function pubSite(force){
 }
 
 
-const PHOTO_PREVIEWS=Object.create(null),PHOTO_STATUS=Object.create(null);
+const PHOTO_PREVIEWS=Object.create(null),PHOTO_STATUS=Object.create(null),PHOTO_COUNTS=Object.create(null);
 function choosePhoto(id){
  const f=S.files.find(x=>x.id===id);if(!f)return;
  if(!ghc()){stat('ابتدا اتصال GitHub را از بخش انتشار سایت فعال کنید','#c0392b');return}
@@ -171,9 +171,9 @@ async function uploadPropertyPhotos(id,selected){
    const r=await fetch(root+enc(path),{method:'PUT',headers:H,body:JSON.stringify({message:'Upload property gallery '+id,content,branch:'main'})});
    if(!r.ok)throw new Error('S'+r.status);paths[i]=path;done++;stat('… بارگذاری عکس‌ها: '+done+' از '+valid.length);
   }catch(e){failed++}}}
-  await Promise.all(Array.from({length:Math.min(3,valid.length)},worker));
+  await Promise.all(Array.from({length:1},worker));
   const uploaded=paths.filter(Boolean);if(!uploaded.length)throw new Error('upload-failed');
-  const old=manifest[id],prior=Array.isArray(old)?old:(typeof old==='string'?[old]:[]);manifest[id]=[...prior,...uploaded];
+  const old=manifest[id],prior=Array.isArray(old)?old:(typeof old==='string'?[old]:[]);manifest[id]=[...prior,...uploaded];PHOTO_COUNTS[id]=manifest[id].length;
   const bytes=new TextEncoder().encode(JSON.stringify(manifest,null,2));let bin='';bytes.forEach(x=>bin+=String.fromCharCode(x));
   const mr=await fetch(ma,{method:'PUT',headers:H,body:JSON.stringify({message:'Update property photo gallery',content:btoa(bin),...(msha?{sha:msha}:{}),branch:'main'})});if(!mr.ok)throw new Error('S'+mr.status);
   const published=await pubSite(true);
@@ -261,8 +261,20 @@ function mv(i,d){
  c.s=Math.max(0,Math.min(4,c.s+d));c.lc=now();persist();render();
 }
 function touch(id){const c=S.cus.find(x=>x.id===id);if(c){c.lc=now();persist();render()}}
-function del(k,id){
+async function removePropertyPhotos(id){
+ const c=ghc();if(!c)return;
+ const H={Authorization:'Bearer '+c.tk,Accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','Content-Type':'application/json'},root='https://api.github.com/repos/'+c.repo+'/contents/',ma=root+'images/manifest.json',enc=s=>s.split('/').map(encodeURIComponent).join('/');
+ const mg=await fetch(ma+'?ref=main&_='+Date.now(),{headers:H,cache:'no-store'});if(mg.status===404)return true;if(!mg.ok)throw new Error('manifest');
+ const mj=await mg.json(),manifest=JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(mj.content.replace(/\s/g,'')),x=>x.charCodeAt(0))));
+ const paths=Array.isArray(manifest[id])?manifest[id]:(typeof manifest[id]==='string'?[manifest[id]]:[]);
+ for(const path of paths){const gr=await fetch(root+enc(path)+'?ref=main',{headers:H});if(gr.status===404)continue;if(!gr.ok)throw new Error('read-image');const item=await gr.json();const dr=await fetch(root+enc(path),{method:'DELETE',headers:H,body:JSON.stringify({message:'Delete property gallery '+id,sha:item.sha,branch:'main'})});if(!dr.ok)throw new Error('delete-image')}
+ delete manifest[id];const bytes=new TextEncoder().encode(JSON.stringify(manifest,null,2));let bin='';bytes.forEach(x=>bin+=String.fromCharCode(x));
+ const mr=await fetch(ma,{method:'PUT',headers:H,body:JSON.stringify({message:'Remove property gallery references',content:btoa(bin),sha:mj.sha,branch:'main'})});if(!mr.ok)throw new Error('update-manifest');
+ delete PHOTO_COUNTS[id];delete PHOTO_PREVIEWS[id];delete PHOTO_STATUS[id];return true;
+}
+async function del(k,id){
  if(S.cf!==k+id){S.cf=k+id;render();return}
+ if(k==='f'){try{await removePropertyPhotos(id)}catch(e){stat('حذف تصاویر کامل نشد؛ فایل حذف نشد تا تصویر بدون مالک باقی نماند','#c0392b');return}}
  S.cf='';if(k==='f')S.files=S.files.filter(x=>x.id!==id);else S.cus=S.cus.filter(x=>x.id!==id);persist();render();
 }
 function tg(i){S.vis[i].d=!S.vis[i].d;persist();render()}
@@ -295,7 +307,7 @@ dash(){
 files(){
  const L=S.files.filter(f=>S.flt==='همه'||f.ty===S.flt);
  return `<div class="bar"><div class="chips">${['همه',...TY].map(c=>`<button class="chip ${S.flt===c?'on':''}" onclick="setF('${c}')">${c}</button>`).join('')}</div><button class="btn" onclick="addFile()">فایل جدید</button></div>
- <div class="grid">${L.map(f=>`<div class="card"><span class="badge ${f.ty==='فروش'?'':'r'}">${f.ty}</span> <span class="meta">${f.st}</span><h3 style="margin-top:6px">${esc(f.t)}</h3><div class="meta">${esc(f.a)} · ${N(f.m)} متر · ${N(f.r)} خواب<br>مالک: ${esc(f.ow||'—')} ${f.op?`<a href="tel:${esc(f.op)}">تماس</a>`:''}</div><div class="price">${PL[f.ty]||''}${fmt(f.p)}</div><div class="meta">کمیسیون: ${fmt(f.cm||0)}</div>${nc(f)?`<div class="match">${N(nc(f))} مشتری مناسب دارید</div>`:''}${PHOTO_PREVIEWS[f.id]?.length?`<div style="display:flex;gap:7px;overflow-x:auto;margin:10px 0;padding:4px 0;align-items:center">${PHOTO_PREVIEWS[f.id].map(u=>`<img src="${u}" style="width:76px;height:64px;object-fit:cover;border-radius:8px;flex:0 0 auto;border:1px solid #bbb">`).join('')}<span class="meta" style="white-space:nowrap">${PHOTO_STATUS[f.id]||'پیش‌نمایش عکس‌ها'}</span></div>`:''}<div class="mv"><button class="btn sm" onclick="choosePhoto('${f.id}')">بارگذاری عکس</button><button class="btn ghost sm" onclick="ad('${f.id}')">ارائه به مشتری</button><button class="btn ghost sm" onclick="editFile('${f.id}')">ویرایش</button><button class="btn ghost sm" onclick="del('f','${f.id}')">${S.cf==='f'+f.id?'تأیید حذف':'حذف'}</button></div></div>`).join('')||'<p class="empty">فایلی ثبت نشده. اولین فایل را اضافه کنید.</p>'}</div>`},
+ <div class="grid">${L.map(f=>`<div class="card"><span class="badge ${f.ty==='فروش'?'':'r'}">${f.ty}</span> <span class="meta">${f.st}</span><h3 style="margin-top:6px">${esc(f.t)}</h3><div class="meta">${esc(f.a)} · ${N(f.m)} متر · ${N(f.r)} خواب<br>مالک: ${esc(f.ow||'—')} ${f.op?`<a href="tel:${esc(f.op)}">تماس</a>`:''}</div><div class="price">${PL[f.ty]||''}${fmt(f.p)}</div><div class="meta">کمیسیون: ${fmt(f.cm||0)}</div>${nc(f)?`<div class="match">${N(nc(f))} مشتری مناسب دارید</div>`:''}${PHOTO_COUNTS[f.id]?`<div class="meta" style="margin-top:8px">🖼 ${N(PHOTO_COUNTS[f.id])} تصویر ثبت‌شده</div>`:''}${PHOTO_PREVIEWS[f.id]?.length?`<div style="display:flex;gap:7px;overflow-x:auto;margin:10px 0;padding:4px 0;align-items:center">${PHOTO_PREVIEWS[f.id].map(u=>`<img src="${u}" style="width:76px;height:64px;object-fit:cover;border-radius:8px;flex:0 0 auto;border:1px solid #bbb">`).join('')}<span class="meta" style="white-space:nowrap">${PHOTO_STATUS[f.id]||'پیش‌نمایش عکس‌ها'}</span></div>`:''}<div class="mv"><button class="btn sm" onclick="choosePhoto('${f.id}')">بارگذاری عکس</button><button class="btn ghost sm" onclick="ad('${f.id}')">ارائه به مشتری</button><button class="btn ghost sm" onclick="editFile('${f.id}')">ویرایش</button><button class="btn ghost sm" onclick="del('f','${f.id}')">${S.cf==='f'+f.id?'تأیید حذف':'حذف'}</button></div></div>`).join('')||'<p class="empty">فایلی ثبت نشده. اولین فایل را اضافه کنید.</p>'}</div>`},
 crm(){
  return `<div class="bar"><h2 style="margin:0">مسیر فروش</h2><button class="btn" onclick="addCus()">مشتری جدید</button></div>
  <div class="board">${STAGES.map((s,si)=>{const L=S.cus.map((c,i)=>({c,i})).filter(x=>x.c.s===si);
