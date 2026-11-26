@@ -529,7 +529,7 @@ footer{background:#111314}
   <div class="footer-bottom"><div class="wrap"><span>© BROKER AMLAK · سهراب بهادر</span><span>اعتماد شما، سرمایه ماست</span></div></div>
 </footer>
 <div class="about-modal" id="aboutModal" onclick="if(event.target===this)closeAbout()"><div class="modal"><button class="close" onclick="closeAbout()">×</button><h2>درباره سهراب بهادر</h2><div id="aboutText"></div></div></div>
-<script type="application/json" id="d">{"f":[{"t":"108 متری 5 سال ساخت شهرزیبا«آلاله‌شرقی»","a":"بلوار تعاون /آلاله‌شرقی","ty":"فروش","cat":"","p":49000,"m":108,"r":2,"f":"—","x":"آسانسور، پارکینگ ، انباری ،تراس ،رو به نما"},{"t":"آپارتمان 140متری 3 خواب نوساز«کلید نخورده»","a":"تهران،جنت‌آباد جنوبی","ty":"فروش","cat":"","p":77000,"m":170,"r":3,"f":"—","x":"آسانسور،پارکینگ،انباری،تراس ، سالن پرده خور /تخلیه/ دارای 2 پارکینگ"},{"t":"آپارتمان 165 متری ✨تک واحدی«پذیرایی 15متر پرده خور»","a":"تهران، جنت‌آباد جنوبی","ty":"فروش","cat":"","p":90200,"m":165,"r":3,"f":"—","x":"آسانسور، پارکینگ ، انباری ،تراس ،3خواب مستر، 3 پارکینگ سندی ،نوساز کلید نخورده"},{"t":"آپارتمان 110متری «کلید نخورده»","a":"ستاری شمال «هجرت» ـ گلزار","ty":"فروش","cat":"","p":48400,"m":110,"r":2,"f":"—","x":"آسانسور ،پارکینگ ،انباری، تراس، ۷ ساله کلید نخورده، ۵ طبقه ،دو واحدی، طبقه اول"}],"ph":"09123692401","ad":"","bio":"BROKER AMLAK مبتکر خدمات هوشمند ملکی","ab":"سهراب بهادر، فعال حوزه خدمات ملکی با تمرکز بر خدمات مدرن، شناخت میدانی بازار و توسعه راهکارهای هوشمند در صنعت املاک است.\nرویکرد بروکر املاک بر شفافیت اطلاعات، انتخاب آگاهانه و همراهی حرفه‌ای در مسیر معاملات ملکی استوار است.","bl":"BROKER_amlak","ig":"broker_amlak.ir","ap":""}</script>
+<script type="application/json" id="d">{"f":[{"id":"f1795704676362","t":"108 متری 5 سال ساخت شهرزیبا«آلاله‌شرقی»","a":"بلوار تعاون /آلاله‌شرقی","ty":"فروش","cat":"","p":49000,"m":108,"r":2,"f":"—","x":"آسانسور، پارکینگ ، انباری ،تراس ،رو به نما"},{"id":"f1791473172144","t":"آپارتمان 140متری 3 خواب نوساز«کلید نخورده»","a":"تهران،جنت‌آباد جنوبی","ty":"فروش","cat":"","p":77000,"m":170,"r":3,"f":"—","x":"آسانسور،پارکینگ،انباری،تراس ، سالن پرده خور /تخلیه/ دارای 2 پارکینگ"},{"id":"f1791470093544","t":"آپارتمان 165 متری ✨تک واحدی«پذیرایی 15متر پرده خور»","a":"تهران، جنت‌آباد جنوبی","ty":"فروش","cat":"","p":90200,"m":165,"r":3,"f":"—","x":"آسانسور، پارکینگ ، انباری ،تراس ،3خواب مستر، 3 پارکینگ سندی ،نوساز کلید نخورده"},{"id":"f1791319091917","t":"آپارتمان 110متری «کلید نخورده»","a":"ستاری شمال «هجرت» ـ گلزار","ty":"فروش","cat":"","p":48400,"m":110,"r":2,"f":"—","x":"آسانسور ،پارکینگ ،انباری، تراس، ۷ ساله کلید نخورده، ۵ طبقه ،دو واحدی، طبقه اول"}],"ph":"09123692401","ad":"","bio":"BROKER AMLAK مبتکر خدمات هوشمند ملکی","ab":"سهراب بهادر، فعال حوزه خدمات ملکی با تمرکز بر خدمات مدرن، شناخت میدانی بازار و توسعه راهکارهای هوشمند در صنعت املاک است.\nرویکرد بروکر املاک بر شفافیت اطلاعات، انتخاب آگاهانه و همراهی حرفه‌ای در مسیر معاملات ملکی استوار است.","bl":"BROKER_amlak","ig":"broker_amlak.ir","ap":""}</script>
 <script>
 const D=JSON.parse(document.getElementById('d').textContent),$=id=>document.getElementById(id),
 fa=n=>Number(n||0).toLocaleString('fa-IR'),
@@ -542,6 +542,9 @@ const pics=[
 'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=80',
 'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=900&q=80'
 ];
+let photoManifest={};
+fetch('images/manifest.json?'+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():{}).then(v=>{photoManifest=v||{};if(typeof draw==='function')draw()}).catch(()=>{});
+
 const phones=String(D.ph||'').split(/[,،]+/).map(x=>x.trim()).filter(Boolean);
 function categoryOf(f){return f.cat||(f.ty==='فروش'?'فروش آپارتمان':(f.ty||'سایر فایل‌ها'))}
 function normalizeLink(v,base){
@@ -573,13 +576,6 @@ function renderAbout(){
   p.appendChild(document.createTextNode(line.slice(last)));target.appendChild(p);
  });
 }
-let imageManifest={};
-fetch('images/manifest.json',{cache:'no-cache'}).then(r=>r.ok?r.json():{}).then(v=>{if(v&&typeof v==='object'&&!Array.isArray(v))imageManifest=v;draw()}).catch(()=>{});
-function propertyImage(f,idx){
- const path=f.id&&imageManifest[f.id];
- if(typeof path==='string'&&path.startsWith('images/')&&!path.includes('..')&&!path.startsWith('/')&&!/^https?:/i.test(path))return path.split('/').map(encodeURIComponent).join('/');
- return pics[idx%pics.length];
-}
 function draw(){
  const filters=$('filters'),properties=$('properties');
  if(!filters||!properties)return;
@@ -594,7 +590,7 @@ function draw(){
   if(f.r!=null&&f.r!=='')specs.push(`${fa(f.r)} خواب`);
   if(f.f&&f.f!=='—')specs.push(`طبقه ${esc(f.f)}`);
   specs.push('آماده بازدید');
-  return `<article class="property"><div class="photo"><img src="${propertyImage(f,idx)}" alt="تصویر ملک ${esc(f.t)}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${pics[idx%pics.length]}'"><span class="tag">${esc(cat)}</span></div><div class="pbody"><h3>${esc(f.t)}</h3><div class="loc">⌖ ${esc(f.a)}</div><div class="specs">${specs.map(x=>`<span>${x}</span>`).join('')}</div><div class="price">${money(f.p)} <small>قیمت پیشنهادی</small></div><div class="pfoot"><a href="${phones[0]?'tel:'+esc(phones[0]):'#contact'}">درخواست اطلاعات ←</a><span>کد فایل: B-${String(idx+101)}</span></div></div></article>`;
+  return `<article class="property"><div class="photo"><img src="${photoManifest[f.id]||pics[idx%pics.length]}" alt="تصویر ملک ${esc(f.t)}" loading="lazy" decoding="async"><span class="tag">${esc(cat)}</span></div><div class="pbody"><h3>${esc(f.t)}</h3><div class="loc">⌖ ${esc(f.a)}</div><div class="specs">${specs.map(x=>`<span>${x}</span>`).join('')}</div><div class="price">${money(f.p)} <small>قیمت پیشنهادی</small></div><div class="pfoot"><a href="${phones[0]?'tel:'+esc(phones[0]):'#contact'}">درخواست اطلاعات ←</a><span>کد فایل: B-${String(idx+101)}</span></div></div></article>`;
  }).join(''):'<div class="empty">در این دسته فعلاً فایلی برای نمایش نیست.</div>';
 }
 function moveProperties(direction){
