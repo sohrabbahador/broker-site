@@ -573,6 +573,14 @@ function renderAbout(){
   p.appendChild(document.createTextNode(line.slice(last)));target.appendChild(p);
  });
 }
+let imageManifest={};
+fetch('images/manifest.json',{cache:'no-cache'}).then(r=>r.ok?r.json():{}).then(v=>{if(v&&typeof v==='object'&&!Array.isArray(v))imageManifest=v;draw()}).catch(()=>{});
+function propertyImage(f,idx){
+ const name=f.id&&imageManifest[f.id];
+ if(typeof name==='string'&&name.trim()&&!name.includes('..')&&!name.startsWith('/')&&!/^https?:/i.test(name))
+  return 'images/'+name.split('/').map(encodeURIComponent).join('/');
+ return pics[idx%pics.length];
+}
 function draw(){
  const filters=$('filters'),properties=$('properties');
  if(!filters||!properties)return;
@@ -587,7 +595,7 @@ function draw(){
   if(f.r!=null&&f.r!=='')specs.push(`${fa(f.r)} خواب`);
   if(f.f&&f.f!=='—')specs.push(`طبقه ${esc(f.f)}`);
   specs.push('آماده بازدید');
-  return `<article class="property"><div class="photo"><img src="${pics[idx%pics.length]}" alt="تصویر نمونه فایل ملکی" loading="lazy"><span class="tag">${esc(cat)}</span></div><div class="pbody"><h3>${esc(f.t)}</h3><div class="loc">⌖ ${esc(f.a)}</div><div class="specs">${specs.map(x=>`<span>${x}</span>`).join('')}</div><div class="price">${money(f.p)} <small>قیمت پیشنهادی</small></div><div class="pfoot"><a href="${phones[0]?'tel:'+esc(phones[0]):'#contact'}">درخواست اطلاعات ←</a><span>کد فایل: B-${String(idx+101)}</span></div></div></article>`;
+  return `<article class="property"><div class="photo"><img src="${propertyImage(f,idx)}" alt="تصویر ملک ${esc(f.t)}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${pics[idx%pics.length]}'"><span class="tag">${esc(cat)}</span></div><div class="pbody"><h3>${esc(f.t)}</h3><div class="loc">⌖ ${esc(f.a)}</div><div class="specs">${specs.map(x=>`<span>${x}</span>`).join('')}</div><div class="price">${money(f.p)} <small>قیمت پیشنهادی</small></div><div class="pfoot"><a href="${phones[0]?'tel:'+esc(phones[0]):'#contact'}">درخواست اطلاعات ←</a><span>کد فایل: B-${String(idx+101)}</span></div></div></article>`;
  }).join(''):'<div class="empty">در این دسته فعلاً فایلی برای نمایش نیست.</div>';
 }
 function moveProperties(direction){
