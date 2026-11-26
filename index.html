@@ -2,17 +2,17 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>BROKER AMLAK | خرید و فروش آپارتمان، ویلایی و کلنگی، مشارکت در ساخت تهران</title><meta name="description" content="مشاوره تخصصی خرید، فروش، رهن و اجاره ملک در تهران با تمرکز بر منطقه ۵؛ فایلینگ هدفمند و همراهی حرفه‌ای در معاملات ملکی.">
+<title>خرید، فروش و اجاره ملک در منطقه ۵ تهران | بروکر املاک</title><meta name="description" content="مشاوره تخصصی خرید، فروش، رهن و اجاره ملک در تهران با تمرکز بر منطقه ۵؛ فایلینگ هدفمند و همراهی حرفه‌ای در معاملات ملکی.">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <link rel="canonical" href="https://broker-amlak.ir/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fa_IR">
 <meta property="og:site_name" content="BROKER AMLAK">
-<meta property="og:title" content="BROKER AMLAK | خرید و فروش آپارتمان، ویلایی و کلنگی، مشارکت در ساخت تهران">
+<meta property="og:title" content="بروکر املاک | خرید، فروش و اجاره ملک در منطقه ۵ تهران">
 <meta property="og:description" content="مشاوره تخصصی خرید، فروش، رهن و اجاره ملک در تهران، با تمرکز بر منطقه ۵.">
 <meta property="og:url" content="https://broker-amlak.ir/">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="BROKER AMLAK | خرید و فروش آپارتمان، ویلایی و کلنگی، مشارکت در ساخت تهران">
+<meta name="twitter:title" content="بروکر املاک | سهراب بهادر">
 <meta name="twitter:description" content="مشاوره تخصصی خرید، فروش، رهن و اجاره ملک در تهران، با تمرکز بر منطقه ۵.">
 <script type="application/ld+json">
 {
@@ -28,9 +28,7 @@
     {"@type": "AdministrativeArea", "name": "منطقه ۵ تهران"},
     {"@type": "City", "name": "تهران"}
   ],
-  "sameAs": [
-    ["https://ble.ir/BROKER_amlak","https://instagram.com/broker_amlak.ir"]
-  ],
+  "sameAs": ["https://ble.ir/BROKER_amlak","https://instagram.com/broker_amlak.ir"],
   "knowsAbout": [
     "خرید آپارتمان در منطقه ۵ تهران",
     "فروش آپارتمان در منطقه ۵ تهران",
@@ -539,11 +537,9 @@ esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'
 money=n=>{n=Number(n||0);return n>=1000?fa(Math.floor(n/1000))+' میلیارد'+(n%1000?' و '+fa(Math.round(n%1000))+' میلیون':'')+' تومان':fa(n)+' میلیون تومان'};
 let current='همه فایل‌ها';
 const baseFilters=['همه فایل‌ها','فروش آپارتمان','فروش کلنگی','رهن و اجاره','مشارکت در ساخت','پیش‌فروش'];
-const pics=[
-'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=80',
-'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=80',
-'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=900&q=80'
-];
+const PH='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><rect width="640" height="420" fill="#c9ceca"/><path d="M250 250v-50l70-50 70 50v50h-45v-35h-50v35z" fill="#9aa19d"/></svg>'),pics=[PH];
+const imgSrc=p=>encodeURI(String(p||''));
+const thumbOf=p=>String(p).replace(/^(images\/[^/]+)\/([^/]+?)(\.[^./]+)?$/,'$1/t/$2.webp');
 let photoManifest={};
 fetch('images/manifest.json?'+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():{}).then(v=>{photoManifest=v||{};if(typeof draw==='function')draw()}).catch(()=>{});
 
@@ -594,15 +590,16 @@ function draw(){
   specs.push('آماده بازدید');
   const rawGallery=photoManifest[f.id],gallery=(Array.isArray(rawGallery)?rawGallery:(typeof rawGallery==='string'?[rawGallery]:[])).filter(x=>typeof x==='string'&&x.startsWith('images/')&&!x.includes('..')&&!x.startsWith('/'));
   const images=gallery.length?gallery:[pics[idx%pics.length]];
-  return `<article class="property"><div class="photo"><img class="property-gallery-image" data-gallery='${esc(JSON.stringify(images))}' data-gallery-index="0" src="${images[0]}" alt="تصویر ملک ${esc(f.t)}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${pics[idx%pics.length]}'">${images.length>1?`<button type="button" class="gallery-nav" aria-label="نمایش عکس بعدی" data-gallery-step="1">‹</button><span class="gallery-count">۱ / ${fa(images.length)}</span>`:''}<span class="tag">${esc(cat)}</span></div><div class="pbody"><h3>${esc(f.t)}</h3><div class="loc">⌖ ${esc(f.a)}</div><div class="specs">${specs.map(x=>`<span>${x}</span>`).join('')}</div><div class="price">${money(f.p)} <small>قیمت پیشنهادی</small></div><div class="pfoot"><a href="${phones[0]?'tel:'+esc(phones[0]):'#contact'}">درخواست اطلاعات ←</a><span>کد فایل: B-${String(idx+101)}</span></div></div></article>`;
+  return `<article class="property"><div class="photo"><img class="property-gallery-image" data-gallery='${esc(JSON.stringify(images))}' data-gallery-index="0" data-stage="${gallery.length?'thumb':'ph'}" src="${gallery.length?esc(imgSrc(thumbOf(images[0]))):PH}" width="640" height="420" alt="تصویر ملک ${esc(f.t)}" loading="lazy" decoding="async">${images.length>1?`<button type="button" class="gallery-nav" aria-label="نمایش عکس بعدی" data-gallery-step="1">‹</button><span class="gallery-count">۱ / ${fa(images.length)}</span>`:''}<span class="tag">${esc(cat)}</span></div><div class="pbody"><h3>${esc(f.t)}</h3><div class="loc">⌖ ${esc(f.a)}</div><div class="specs">${specs.map(x=>`<span>${x}</span>`).join('')}</div><div class="price">${money(f.p)} <small>قیمت پیشنهادی</small></div><div class="pfoot"><a href="${phones[0]?'tel:'+esc(phones[0]):'#contact'}">درخواست اطلاعات ←</a><span>کد فایل: B-${String(idx+101)}</span></div></div></article>`;
  }).join(''):'<div class="empty">در این دسته فعلاً فایلی برای نمایش نیست.</div>';
  properties.querySelectorAll('.photo').forEach(photo=>{
   const img=photo.querySelector('.property-gallery-image');if(!img)return;
   let paths=[];try{paths=JSON.parse(img.dataset.gallery||'[]')}catch(e){}
+  img.addEventListener('error',()=>{const st=img.dataset.stage;if(st==='thumb'){img.dataset.stage='full';img.src=imgSrc(paths[Number(img.dataset.galleryIndex||0)]||'')}else if(st==='full'){img.dataset.stage='ph';img.src=PH}});
   photo.querySelectorAll('[data-gallery-step]').forEach(btn=>btn.addEventListener('click',()=>{
    if(paths.length<2)return;let i=Number(img.dataset.galleryIndex||0);
    i=(i+1)%paths.length;
-   img.dataset.galleryIndex=String(i);img.src=paths[i];
+   img.dataset.galleryIndex=String(i);img.dataset.stage='thumb';img.src=imgSrc(thumbOf(paths[i]));
    const count=photo.querySelector('.gallery-count');if(count)count.textContent=fa(i+1)+' / '+fa(paths.length);
   }));
  });
