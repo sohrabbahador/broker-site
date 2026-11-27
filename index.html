@@ -648,7 +648,7 @@ initProfileLinks();renderAbout();draw();
       <input id="brokerAiInput" type="text" placeholder="پیام خود را بنویسید..." autocomplete="off" aria-label="پیام شما">
       <button type="submit" aria-label="ارسال پیام">➤</button>
     </form>
-    <div class="broker-ai-note" id="brokerAiNote">پیش‌نمایش رابط گفتگو؛ اتصال هوش مصنوعی در مرحله بعد انجام می‌شود.</div>
+    <div class="broker-ai-note" id="brokerAiNote">دستیار هوشمند بروکر املاک</div>
   </section>
 </div>
 <style>
@@ -672,10 +672,22 @@ initProfileLinks();renderAbout();draw();
 <script>
 function openBrokerAIChat(){const m=document.getElementById('brokerAiModal');m.classList.add('is-open');m.setAttribute('aria-hidden','false');setTimeout(()=>document.getElementById('brokerAiInput').focus(),80)}
 function closeBrokerAIChat(){const m=document.getElementById('brokerAiModal');m.classList.remove('is-open');m.setAttribute('aria-hidden','true')}
-function sendBrokerAIMessage(e){
+const BROKER_AI_API_URL='https://broker-site-ai.onrender.com';
+let brokerAIHistory=[];
+async function sendBrokerAIMessage(e){
  e.preventDefault();const input=document.getElementById('brokerAiInput');const value=input.value.trim();if(!value)return;
- const list=document.getElementById('brokerAiMessages');const bubble=document.createElement('div');bubble.className='broker-ai-bubble user';bubble.textContent=value;list.appendChild(bubble);input.value='';list.scrollTop=list.scrollHeight;
- document.getElementById('brokerAiNote').textContent='این نسخه فقط پیش‌نمایش رابط گفتگو است؛ اتصال هوش مصنوعی هنوز فعال نشده است.';
+ const list=document.getElementById('brokerAiMessages'),note=document.getElementById('brokerAiNote');
+ const userBubble=document.createElement('div');userBubble.className='broker-ai-bubble user';userBubble.textContent=value;list.appendChild(userBubble);
+ input.value='';input.disabled=true;note.textContent='در حال بررسی فایل‌های سایت...';list.scrollTop=list.scrollHeight;
+ const pending=document.createElement('div');pending.className='broker-ai-bubble';pending.textContent='لطفاً کمی صبر کنید...';list.appendChild(pending);
+ try{
+  const response=await fetch(BROKER_AI_API_URL+'/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:value,listings:Array.isArray(D.f)?D.f:[],history:brokerAIHistory})});
+  const result=await response.json();if(!response.ok)throw new Error(result.detail||'ارتباط با دستیار برقرار نشد.');
+  pending.textContent=result.answer||'پاسخی دریافت نشد.';
+  brokerAIHistory.push({role:'user',text:value},{role:'model',text:pending.textContent});brokerAIHistory=brokerAIHistory.slice(-12);
+  note.textContent='پاسخ‌گویی بر اساس فایل‌های فعلی سایت';
+ }catch(err){pending.textContent='در حال حاضر اتصال دستیار برقرار نشد. لطفاً کمی بعد دوباره تلاش کنید.';note.textContent='خطا در اتصال به دستیار هوشمند';}
+ finally{input.disabled=false;input.focus();list.scrollTop=list.scrollHeight;}
 }
 document.addEventListener('DOMContentLoaded',()=>{const card=document.querySelector('.broker-chat-compact');if(card){card.style.cursor='pointer';card.setAttribute('tabindex','0');card.setAttribute('role','button');card.addEventListener('click',openBrokerAIChat);card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openBrokerAIChat()}})}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeBrokerAIChat()});
