@@ -556,11 +556,21 @@ money=n=>{n=Number(n||0);return n>=1000?fa(Math.floor(n/1000))+' میلیارد'
 let current='همه فایل‌ها';
 const baseFilters=['همه فایل‌ها','فروش آپارتمان','فروش کلنگی','رهن و اجاره','مشارکت در ساخت','پیش‌فروش'];
 const AB=String(window.__ASSET_BASE__||'');
+// آدرس سرویس ربات رهن و اجاره را پس از دریافت URL واقعی Render در این مقدار قرار می‌دهیم.
+const RENT_API_BASE='https://bale-rent-broker-robot.onrender.com';
 const PH='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><rect width="640" height="420" fill="#c9ceca"/><path d="M250 250v-50l70-50 70 50v50h-45v-35h-50v35z" fill="#9aa19d"/></svg>'),pics=[PH];
-const imgSrc=p=>encodeURI(AB+String(p||''));
-const thumbOf=p=>String(p).replace(/^(images\/[^/]+)\/([^/]+?)(\.[^./]+)?$/,'$1/t/$2.webp');
+const imgSrc=p=>{p=String(p||'');return /^https?:\/\//i.test(p)?p:encodeURI(AB+p)};
+const thumbOf=p=>/^https?:\/\//i.test(String(p||''))?String(p):String(p).replace(/^(images\/[^/]+)\/([^/]+?)(\.[^./]+)?$/,'$1/t/$2.webp');
 let photoManifest={};
 fetch(AB+'images/manifest.json?'+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():{}).then(v=>{photoManifest=v||{};if(typeof draw==='function')draw()}).catch(()=>{});
+let rentListings=[];
+function loadRentListings(){
+ if(!RENT_API_BASE)return Promise.resolve();
+ return fetch(RENT_API_BASE+'/public/rent/listings',{cache:'no-store',credentials:'omit'})
+  .then(r=>r.ok?r.json():Promise.reject(new Error('rent api '+r.status)))
+  .then(data=>{rentListings=Array.isArray(data.listings)?data.listings:[];D.f=(D.f||[]).filter(f=>!String(f.id||'').startsWith('rent-')).concat(rentListings);if(typeof draw==='function')draw()})
+  .catch(err=>console.warn('BROKER rent listings unavailable',err));
+}
 
 const phones=String(D.ph||'').split(/[,،]+/).map(x=>x.trim()).filter(Boolean);
 function categoryOf(f){return f.cat||(f.ty==='فروش'?'فروش آپارتمان':(f.ty||'سایر فایل‌ها'))}
@@ -602,14 +612,14 @@ function draw(){
  filters.querySelectorAll('[data-filter]').forEach(btn=>btn.addEventListener('click',()=>setFilter(btn.dataset.filter)));
  const rows=(D.f||[]).filter(x=>current==='همه فایل‌ها'||categoryOf(x)===current);
  properties.innerHTML=rows.length?rows.map(f=>{
-  const idx=D.f.indexOf(f),cat=categoryOf(f),specs=[];
+  const idx=D.f.indexOf(f),cat=categoryOf(f),specs=[],isRent=String(f.id||'').startsWith('rent-');
   if(f.m!=null)specs.push(`${fa(f.m)} متر`);
   if(f.r!=null&&f.r!=='')specs.push(`${fa(f.r)} خواب`);
   if(f.f&&f.f!=='—')specs.push(`طبقه ${esc(f.f)}`);
   specs.push('آماده بازدید');
-  const rawGallery=photoManifest[f.id],gallery=(Array.isArray(rawGallery)?rawGallery:(typeof rawGallery==='string'?[rawGallery]:[])).filter(x=>typeof x==='string'&&x.startsWith('images/')&&!x.includes('..')&&!x.startsWith('/'));
+  const rawGallery=f.photoUrls||photoManifest[f.id],gallery=(Array.isArray(rawGallery)?rawGallery:(typeof rawGallery==='string'?[rawGallery]:[])).filter(x=>typeof x==='string'&&(x.startsWith('images/')||/^https?:\/\//i.test(x))&&!x.includes('..'));
   const images=gallery.length?gallery:[pics[idx%pics.length]];
-  return `<article class="property"><div class="photo"><img class="property-gallery-image" data-gallery='${esc(JSON.stringify(images))}' data-gallery-index="0" data-stage="${gallery.length?'thumb':'ph'}" src="${gallery.length?esc(imgSrc(thumbOf(images[0]))):PH}" width="640" height="420" alt="تصویر ملک ${esc(f.t)}" loading="lazy" decoding="async">${images.length>1?`<button type="button" class="gallery-nav" aria-label="نمایش عکس بعدی" data-gallery-step="1">‹</button><span class="gallery-count">۱ / ${fa(images.length)}</span>`:''}<span class="tag">${esc(cat)}</span></div><div class="pbody"><h3>${esc(f.t)}</h3><div class="loc">⌖ ${esc(f.a)}</div><div class="specs">${specs.map(x=>`<span>${x}</span>`).join('')}</div><div class="price">${money(f.p)} <small>قیمت پیشنهادی</small></div><div class="pfoot"><a href="${phones[0]?'tel:'+esc(phones[0]):'#contact'}">درخواست اطلاعات ←</a><span>کد فایل: B-${String(idx+101)}</span></div></div></article>`;
+  return `<article class="property"><div class="photo"><img class="property-gallery-image" data-gallery='${esc(JSON.stringify(images))}' data-gallery-index="0" data-stage="${gallery.length?'thumb':'ph'}" src="${gallery.length?esc(imgSrc(thumbOf(images[0]))):PH}" width="640" height="420" alt="تصویر ملک ${esc(f.t)}" loading="lazy" decoding="async">${images.length>1?`<button type="button" class="gallery-nav" aria-label="نمایش عکس بعدی" data-gallery-step="1">‹</button><span class="gallery-count">۱ / ${fa(images.length)}</span>`:''}<span class="tag">${esc(cat)}</span></div><div class="pbody"><h3>${esc(f.t)}</h3><div class="loc">⌖ ${esc(f.a)}</div><div class="specs">${specs.map(x=>`<span>${x}</span>`).join('')}</div><div class="price">${isRent&&f.priceLabel?esc(f.priceLabel):money(f.p)} ${isRent&&f.priceLabel?'':'<small>قیمت پیشنهادی</small>'}</div><div class="pfoot"><a href="${phones[0]?'tel:'+esc(phones[0]):'#contact'}">درخواست اطلاعات ←</a><span>کد فایل: ${esc(isRent&&f.code?f.code:('B-'+String(idx+101)))}</span></div></div></article>`;
  }).join(''):'<div class="empty">در این دسته فعلاً فایلی برای نمایش نیست.</div>';
  properties.querySelectorAll('.photo').forEach(photo=>{
   const img=photo.querySelector('.property-gallery-image');if(!img)return;
@@ -634,5 +644,5 @@ window.addEventListener('resize',()=>{if(window.innerWidth>800)closeMenu()});
 function setFilter(v){current=v;draw()}
 function openAbout(){$('aboutModal').classList.add('show')}
 function closeAbout(){$('aboutModal').classList.remove('show')}
-initProfileLinks();renderAbout();draw();
+initProfileLinks();renderAbout();draw();loadRentListings();
 </script></body></html>
