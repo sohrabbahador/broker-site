@@ -488,7 +488,8 @@ footer{background:#111314}
 
 .gallery-nav{position:absolute;right:12px;bottom:10px;z-index:3;width:36px;height:36px;border:1px solid rgba(255,255,255,.38);border-radius:50%;background:rgba(10,14,18,.72);backdrop-filter:blur(6px);color:#fff;font-size:25px;line-height:1;cursor:pointer;display:grid;place-items:center;transition:background .2s,transform .2s}.gallery-nav:hover{background:rgba(10,14,18,.9);transform:scale(1.06)}
 .gallery-count{position:absolute;bottom:10px;left:10px;z-index:3;padding:5px 10px;border-radius:20px;background:rgba(10,14,18,.72);backdrop-filter:blur(6px);color:#fff;font-size:11px;direction:ltr;font-variant-numeric:tabular-nums}
-</style></head>
+</style><link rel="preconnect" href="https://bale-rent-broker-robot.onrender.com" crossorigin>
+</head>
 <body>
 <div class="top"><div class="wrap"><span>مشاوره تخصصی خرید، فروش و سرمایه‌گذاری ملکی</span><span>تهران · منطقه ۵ و مناطق منتخب</span></div></div>
 <header><div class="wrap nav"><a class="brand" href="#home"><span class="mark"><span>⌂</span></span><span><b>سهراب بهادر</b><small>BROKER AMLAK</small></span></a><nav class="links" id="mainLinks"><a href="#home" onclick="closeMenu()">صفحه نخست</a><a href="#listings" onclick="closeMenu()">فایل‌های ملکی</a><a href="#about" onclick="closeMenu()">درباره بروکر</a><a href="#contact" onclick="closeMenu()">ارتباط با ما</a></nav><button class="menu-toggle" type="button" aria-label="باز کردن منو" aria-expanded="false" aria-controls="mainLinks" onclick="toggleMenu()"><span></span><span></span><span></span></button><a class="navcta" href="tel:09123692401" id="navCall">درخواست مشاوره</a></div></header>
@@ -560,17 +561,38 @@ const AB=String(window.__ASSET_BASE__||'');
 const RENT_API_BASE='https://bale-rent-broker-robot.onrender.com';
 const PH='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><rect width="640" height="420" fill="#c9ceca"/><path d="M250 250v-50l70-50 70 50v50h-45v-35h-50v35z" fill="#9aa19d"/></svg>'),pics=[PH];
 const imgSrc=p=>{p=String(p||'');return /^https?:\/\//i.test(p)?p:encodeURI(AB+p)};
-const thumbOf=p=>/^https?:\/\//i.test(String(p||''))?String(p):String(p).replace(/^(images\/[^/]+)\/([^/]+?)(\.[^./]+)?$/,'$1/t/$2.webp');
+const thumbOf=p=>/^https?:\/\//i.test(String(p||''))?(String(p).indexOf('/public/rent/photo')>-1?String(p)+(String(p).indexOf('?')<0?'?':'&')+'w=640':String(p)):String(p).replace(/^(images\/[^/]+)\/([^/]+?)(\.[^./]+)?$/,'$1/t/$2.webp');
 let photoManifest={};
 fetch(AB+'images/manifest.json?'+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():{}).then(v=>{photoManifest=v||{};if(typeof draw==='function')draw()}).catch(()=>{});
-let rentListings=[];
-function loadRentListings(){
- if(!RENT_API_BASE)return Promise.resolve();
- return fetch(RENT_API_BASE+'/public/rent/listings',{cache:'no-store',credentials:'omit'})
+let rentListings=[],rentLoading=false,rentLoaded=false;
+/* سرویس رایگان بعد از بیکاری می‌خوابد؛ بارگذاری با زمان‌سنج و تلاش مجدد انجام می‌شود تا فایل‌های رهن و اجاره گم نشوند */
+function loadRentListings(attempt){
+ if(!RENT_API_BASE||rentLoading)return Promise.resolve();
+ attempt=attempt||0;rentLoading=true;
+ const ctl=typeof AbortController==='function'?new AbortController():null,timer=ctl?setTimeout(()=>ctl.abort(),30000):0;
+ return fetch(RENT_API_BASE+'/public/rent/listings',{cache:'no-store',credentials:'omit',signal:ctl?ctl.signal:undefined})
   .then(r=>r.ok?r.json():Promise.reject(new Error('rent api '+r.status)))
-  .then(data=>{rentListings=Array.isArray(data.listings)?data.listings:[];D.f=(D.f||[]).filter(f=>!String(f.id||'').startsWith('rent-')).concat(rentListings);if(typeof draw==='function')draw()})
-  .catch(err=>console.warn('BROKER rent listings unavailable',err));
+  .then(data=>{rentListings=Array.isArray(data.listings)?data.listings:[];rentLoaded=true;D.f=(D.f||[]).filter(f=>!String(f.id||'').startsWith('rent-')).concat(rentListings);if(typeof draw==='function')draw()})
+  .catch(err=>{
+   console.warn('BROKER rent listings unavailable',err);rentLoading=false;
+   if(attempt<4)return new Promise(res=>setTimeout(res,Math.min(2000*(attempt+1),8000))).then(()=>loadRentListings(attempt+1));
+  })
+  .finally(()=>{clearTimeout(timer);rentLoading=false});
 }
+/* برگشت به سایت، آنلاین شدن یا بازگشت از حافظه صفحه: فایل‌ها و تصاویر ناموفق دوباره امتحان می‌شوند */
+function reviveBrokenImages(){
+ document.querySelectorAll('.property-gallery-image').forEach(img=>{
+  if(img.dataset.stage!=='ph')return;
+  let paths=[];try{paths=JSON.parse(img.dataset.gallery||'[]')}catch(e){}
+  const p=paths[Number(img.dataset.galleryIndex||0)];
+  if(!p||p===PH)return;
+  img.dataset.stage='thumb';img.dataset.retry='0';img.src=imgSrc(thumbOf(p));
+ });
+}
+function recoverPublicData(){if(!rentLoaded)loadRentListings();reviveBrokenImages()}
+window.addEventListener('pageshow',recoverPublicData);
+window.addEventListener('online',recoverPublicData);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)recoverPublicData()});
 
 const phones=String(D.ph||'').split(/[,،]+/).map(x=>x.trim()).filter(Boolean);
 function categoryOf(f){return f.cat||(f.ty==='فروش'?'فروش آپارتمان':(f.ty||'سایر فایل‌ها'))}
@@ -624,11 +646,19 @@ function draw(){
  properties.querySelectorAll('.photo').forEach(photo=>{
   const img=photo.querySelector('.property-gallery-image');if(!img)return;
   let paths=[];try{paths=JSON.parse(img.dataset.gallery||'[]')}catch(e){}
-  img.addEventListener('error',()=>{const st=img.dataset.stage;if(st==='thumb'){img.dataset.stage='full';img.src=imgSrc(paths[Number(img.dataset.galleryIndex||0)]||'')}else if(st==='full'){img.dataset.stage='ph';img.src=PH}});
+  img.addEventListener('error',()=>{
+   const st=img.dataset.stage,p0=paths[Number(img.dataset.galleryIndex||0)]||'';
+   if(st==='thumb'){img.dataset.stage='full';img.src=imgSrc(p0)}
+   else if(st==='full'){
+    const n=Number(img.dataset.retry||0);
+    if(/^https?:\/\//i.test(p0)&&n<3){img.dataset.retry=String(n+1);setTimeout(()=>{if(img.dataset.stage==='full')img.src=imgSrc(p0)+(p0.indexOf('?')<0?'?':'&')+'_r='+(n+1)},1500*(n+1))}
+    else{img.dataset.stage='ph';img.src=PH}
+   }
+  });
   photo.querySelectorAll('[data-gallery-step]').forEach(btn=>btn.addEventListener('click',()=>{
    if(paths.length<2)return;let i=Number(img.dataset.galleryIndex||0);
    i=(i+1)%paths.length;
-   img.dataset.galleryIndex=String(i);img.dataset.stage='thumb';img.src=imgSrc(thumbOf(paths[i]));
+   img.dataset.galleryIndex=String(i);img.dataset.stage='thumb';img.dataset.retry='0';img.src=imgSrc(thumbOf(paths[i]));
    const count=photo.querySelector('.gallery-count');if(count)count.textContent=fa(i+1)+' / '+fa(paths.length);
   }));
  });
@@ -645,4 +675,90 @@ function setFilter(v){current=v;draw()}
 function openAbout(){$('aboutModal').classList.add('show')}
 function closeAbout(){$('aboutModal').classList.remove('show')}
 initProfileLinks();renderAbout();draw();loadRentListings();
-</script></body></html>
+</script>
+<!-- Broker AI chat preview: isolated addition; original site content and typing demo remain unchanged. -->
+<div class="broker-ai-modal" id="brokerAiModal" aria-hidden="true" onclick="if(event.target===this)closeBrokerAIChat()">
+  <section class="broker-ai-window" role="dialog" aria-modal="true" aria-labelledby="brokerAiTitle">
+    <header class="broker-ai-head">
+      <div><span class="broker-ai-online"></span><strong id="brokerAiTitle">گفتگوی آنلاین بروکر املاک</strong><small>دستیار هوشمند خرید، فروش، رهن و اجاره</small></div>
+      <button type="button" class="broker-ai-close" onclick="closeBrokerAIChat()" aria-label="بستن">×</button>
+    </header>
+    <div class="broker-ai-messages" id="brokerAiMessages"><div class="broker-ai-bubble">سلام، چطور می‌توانم در پیدا کردن ملک مناسب راهنمایی‌تان کنم؟</div></div>
+    <form class="broker-ai-form" onsubmit="sendBrokerAIMessage(event)">
+      <input id="brokerAiInput" type="text" placeholder="پیام خود را بنویسید..." autocomplete="off" aria-label="پیام شما">
+      <button type="submit" aria-label="ارسال پیام">➤</button>
+    </form>
+    <div class="broker-ai-note" id="brokerAiNote">دستیار هوشمند بروکر املاک</div>
+  </section>
+</div>
+<style>
+.broker-ai-modal{display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.68);padding:18px;align-items:center;justify-content:center}
+.broker-ai-modal.is-open{display:flex}
+.broker-ai-window{width:min(100%,430px);height:min(680px,calc(100dvh - 36px));background:#171d1e;border:1px solid rgba(163,255,69,.35);border-radius:12px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 70px rgba(0,0,0,.45);color:#edf1ed}
+.broker-ai-head{display:flex;align-items:center;justify-content:space-between;padding:16px;background:#202829;border-bottom:1px solid rgba(255,255,255,.08)}
+.broker-ai-head>div{display:grid;grid-template-columns:10px 1fr;column-gap:9px;row-gap:4px;align-items:center}
+.broker-ai-head strong{font-size:14px}.broker-ai-head small{grid-column:2;color:#aab5b0;font-size:11px}
+.broker-ai-online{width:7px;height:7px;border-radius:50%;background:#a3ff45;box-shadow:0 0 8px #a3ff45}
+.broker-ai-close{border:0;background:transparent;color:#edf1ed;font-size:27px;cursor:pointer}
+.broker-ai-messages{flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
+.broker-ai-bubble{max-width:88%;padding:11px 13px;background:#283333;border:1px solid rgba(255,255,255,.07);border-radius:12px 12px 3px 12px;font-size:13px;line-height:1.9;align-self:flex-start}
+.broker-ai-bubble.user{align-self:flex-end;background:#334329;border-color:rgba(163,255,69,.2);border-radius:12px 12px 12px 3px}
+.broker-ai-form{display:flex;gap:8px;padding:12px;border-top:1px solid rgba(255,255,255,.08)}
+.broker-ai-form input{min-width:0;flex:1;background:#242c2d;border:1px solid #485452;border-radius:7px;padding:12px;color:#fff;font:inherit;font-size:13px;outline:none}
+.broker-ai-form button{width:44px;border:0;border-radius:7px;background:#a3ff45;color:#172014;font-size:20px;cursor:pointer;transform:rotate(180deg)}
+.broker-ai-note{padding:0 12px 12px;color:#89958f;font-size:10px;text-align:center}
+@media(max-width:480px){.broker-ai-modal{padding:10px}.broker-ai-window{height:calc(100dvh - 20px)}}
+</style>
+<script>
+function openBrokerAIChat(){const m=document.getElementById('brokerAiModal');m.classList.add('is-open');m.setAttribute('aria-hidden','false');brokerAIWarm();setTimeout(()=>document.getElementById('brokerAiInput').focus(),80)}
+function closeBrokerAIChat(){const m=document.getElementById('brokerAiModal');m.classList.remove('is-open');m.setAttribute('aria-hidden','true')}
+const BROKER_AI_API_URL='https://broker-site-ai.onrender.com';
+let brokerAIHistory=[],brokerAIWarmed=false;
+/* سرویس رایگان بعد از بیکاری خوابش می‌برد؛ با باز شدن چت، همان لحظه بیدارش می‌کنیم تا اولین پاسخ سریع‌تر برسد */
+function brokerAIWarm(){if(brokerAIWarmed)return;brokerAIWarmed=true;try{fetch(BROKER_AI_API_URL+'/health',{cache:'no-store'}).catch(()=>{})}catch(e){}}
+function brokerAIPayload(value){return JSON.stringify({message:value,listings:Array.isArray(D.f)?D.f:[],history:brokerAIHistory})}
+async function brokerAIErr(r){let d='';try{d=(await r.json()).detail}catch(e){}return new Error(d||'ارتباط با دستیار برقرار نشد.')}
+/* پاسخ به‌صورت جریانی می‌رسد و همزمان با تولید، نمایش داده می‌شود */
+async function brokerAIStream(value,onText,signal){
+ const r=await fetch(BROKER_AI_API_URL+'/chat/stream',{method:'POST',headers:{'Content-Type':'application/json'},body:brokerAIPayload(value),signal});
+ if(!r.ok){const e=await brokerAIErr(r);e.status=r.status;throw e}
+ let full='',buf='';
+ const eat=l=>{l=l.trim();if(!l)return;let o;try{o=JSON.parse(l)}catch(e){return}if(o.error)throw new Error(o.error);if(o.t){full+=o.t;onText(full)}};
+ if(r.body&&r.body.getReader){
+  const reader=r.body.getReader(),dec=new TextDecoder();
+  for(;;){const x=await reader.read();if(x.done)break;buf+=dec.decode(x.value,{stream:true});let i;while((i=buf.indexOf('\n'))>=0){eat(buf.slice(0,i));buf=buf.slice(i+1)}}
+  buf+=dec.decode();
+ }else buf=await r.text();
+ buf.split('\n').forEach(eat);
+ return full;
+}
+async function brokerAIPlain(value,signal){
+ const r=await fetch(BROKER_AI_API_URL+'/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:brokerAIPayload(value),signal});
+ if(!r.ok)throw await brokerAIErr(r);
+ const j=await r.json();return j.answer||'';
+}
+async function sendBrokerAIMessage(e){
+ e.preventDefault();const input=document.getElementById('brokerAiInput');const value=input.value.trim();if(!value||input.disabled)return;
+ const list=document.getElementById('brokerAiMessages'),note=document.getElementById('brokerAiNote');
+ const userBubble=document.createElement('div');userBubble.className='broker-ai-bubble user';userBubble.textContent=value;list.appendChild(userBubble);
+ input.value='';input.disabled=true;note.textContent='در حال بررسی فایل‌های سایت...';list.scrollTop=list.scrollHeight;
+ const pending=document.createElement('div');pending.className='broker-ai-bubble';pending.textContent='لطفاً کمی صبر کنید...';list.appendChild(pending);
+ const ctl=new AbortController(),timer=setTimeout(()=>ctl.abort(),75000);
+ let text='';
+ try{
+  try{text=await brokerAIStream(value,t=>{pending.textContent=t;list.scrollTop=list.scrollHeight},ctl.signal)}
+  catch(err){if(text||pending.textContent!=='لطفاً کمی صبر کنید...'||ctl.signal.aborted)throw err;if(err.status&&err.status!==404&&err.status!==405)throw err;text=await brokerAIPlain(value,ctl.signal)}
+  text=String(text||'').trim()||'پاسخی دریافت نشد.';pending.textContent=text;
+  brokerAIHistory.push({role:'user',text:value},{role:'model',text:text});brokerAIHistory=brokerAIHistory.slice(-12);
+  note.textContent='پاسخ‌گویی بر اساس فایل‌های فعلی سایت';
+ }catch(err){
+  const partial=pending.textContent;
+  if(partial&&partial!=='لطفاً کمی صبر کنید...'&&!/^در حال حاضر اتصال/.test(partial)){note.textContent='پاسخ ناقص ماند؛ دوباره بپرسید'}
+  else{pending.textContent='در حال حاضر اتصال دستیار برقرار نشد. لطفاً کمی بعد دوباره تلاش کنید.';note.textContent='خطا در اتصال به دستیار هوشمند'}
+ }
+ finally{clearTimeout(timer);input.disabled=false;input.focus();list.scrollTop=list.scrollHeight}
+}
+document.addEventListener('DOMContentLoaded',()=>{const card=document.querySelector('.broker-chat-compact');if(card){try{if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){brokerAIWarm();io.disconnect()}},{rootMargin:'500px'});io.observe(card)}}catch(e){}card.style.cursor='pointer';card.setAttribute('tabindex','0');card.setAttribute('role','button');card.addEventListener('click',openBrokerAIChat);card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openBrokerAIChat()}})}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeBrokerAIChat()});
+</script>
+</body></html>
